@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Custom resource to create LM'
+Description: Custom resource to create LM (qs-1rud44tuk)
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
