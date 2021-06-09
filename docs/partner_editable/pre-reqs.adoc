@@ -1,13 +1,6 @@
 // If no preperation is required, remove all content from here
 
-==== Prepare your AWS account
+==== Prepare a Windows AMI
 
-_Describe any setup required in the AWS account prior to template launch_
-
-==== Prepare your {partner-company-name} account
-
-_Describe any setup required in the partner portal/account prior to template launch_
-
-==== Prepare for the deployment
-
-_Describe any preparation required to complete the product build, such as obtaining licenses or placing files in S3_
+Microsoft Windows AMIs provided by AWS include AWS-provided licenses. Since the purpose of this Quick Start is to allow dedicated
+host users to bring their own Windows licenses, you will need to create a Windows AMI. See https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html[the instructions for importing a VM image to your AWS account].

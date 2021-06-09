@@ -18,12 +18,12 @@ best practices, to provide you with your own virtual network on AWS.*
 * In the public subnets:
 ** Managed network address translation (NAT) gateways to allow outbound
 internet access for resources in the private subnets.*
-** A Linux bastion host in an Auto Scaling group to allow inbound Secure
-Shell (SSH) access to EC2 instances in public and private subnets.*
+** An optional Remote Desktop Gateway in an Auto Scaling group to allow inbound Remote Desktop Protocol
+(RDP) access to EC2 instances in public and private subnets.*
 * In the private subnets:
-** <item>.
-** <item>.
+** An optional Auto Scaling group of dedicated host instances.
 // Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram. End each bullet with a period.
-* <describe any additional components>.
+* An AWS License Manager license configuration with an associated Microsoft Windows AMI.
+* An AWS License Manager Host Resource Group associated with the Auto Scaling group in the private subnets.
 
 [.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#

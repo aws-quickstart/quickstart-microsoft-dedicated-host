@@ -2,4 +2,4 @@
 // Briefly describe the software. Use consistent and clear branding. 
 // Include the benefits of using the software on AWS, and provide details on usage scenarios.
 
-<Describe how the software works on AWS.>
+Dedicated Hosts allow you to use your existing per-socket or per-core Microsoft Windows licenses. When you bring your own license, you are responsible for managing your own licenses. This Quick Start automates the setup of https://console.aws.amazon.com/license-manager/home?region=us-east-1#[AWS License Manager] license configuration and associates it with a https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups[host resource group]. An auto-scaling group of Dedicated Host EC2 instances is then created and its hosts are assigned to the host resource group.
