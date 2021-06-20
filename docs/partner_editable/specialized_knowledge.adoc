@@ -4,3 +4,54 @@
 // You don't need to list AWS services or point to general info about AWS; the boilerplate already covers this.
 
 This Quick Start also assumes familiarity with <knowledge expectations specific to this Quick Start>.
+
+=== Understanding DH configuration option ===
+
+Dedicated Hosts powered by the Amazon Web Services Nitro System support multiple instance types within the same instance family on a host.
+For example, when you allocate a R5 Dedicated Host, you can use a host with 2 sockets and 48 physical cores to run different R5 instance types 
+such as r5.2xlarge, r5.4xlarge, and others on the same host. You can run any number of instances up to the core capacity associated with the host.
+
+Support for multiple instance types on the same Dedicated Host is available for the following instance families: 
+
+    c5, m5, r5, c5n, r5n, and m5n
+
+   
+Other instance families support only a single instance type on the same Dedicated Host
+
+For example r5d doesn't support multiple instance type. Hence, you need to select instance type and capacity according to your requirement. 
+
+[width="25%",options="header",]
+|=======
+|Instance Family|Sockets|Physical Cores |large|xlarge|2xlarge|4xlarge|8xlarge|16xlarge|24xlarge
+|r5d |2| 48 | 48| 24 | 12 | 6 | 2|2 |1
+|r5 |2| 48 | 48| 24 | 12 | 6 | 2|2 |1
+|=======
+
+To learn more about dedicated host configuration, please refer to the AWS Documentation.
+https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/
+
+
+=== Maintain License count === 
+
+The QuickStart will use parameter *LicenseCount* to configure the optional License Manager parameter *License Count*.
+This represents the total number of Licenses managed by the configuration rule.
+
+License Manager tracks license counts by vCPU or Core.
+
+To learn more about License Manager Parameters and rules.
+
+https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html
+
+
+=== License affinity to host ===
+
+The QuickStart is configured to follow *The 90 days clause*
+
+This ability to enforce assignment rules further simplifies the Windows Server and SQL Server BYOL experience on AWS.
+
+For Microsoft License Not eligible for Mobility, software license may require a specific duration of time before license can be reassigned to another host.
+
+Within License Manager configuration, the QuickStart will set *License affinity to host (in days)* to *90 days*
+
+    License affinity to host (in days) — Restricts license usage to the host for the specified number of days. The range is 1 to 180. The counting type must be Cores or Sockets. After the affinity period elapses, the license will be available for reuse within 24 hours.
+

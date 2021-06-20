@@ -27,3 +27,72 @@ internet access for resources in the private subnets.*
 * An AWS License Manager Host Resource Group associated with the Auto Scaling group in the private subnets.
 
 [.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+== EC2 Dedicated Infrastructure ==
+
+Understanding the cost components while running Microsoft Workload on Amazon EC2 platform is critical.
+
+When you run workload such Microsoft SQL Server on Amazon EC2 Instance, you pay for three components.
+
+. EC2 resource i.e hourly charge for running instance type and instance size such as r5.4xlarge.
+. Windows Server License
+. SQL Server License
+
+=== License Manager ===
+
+AWS License Manager makes it easier to manage your software licenses from vendors such as Microsoft, SAP, Oracle, and IBM, across AWS and on-premises environments. 
+This gives you better control and visibility of your licenses, allowing you to limit licensing overages and reduce the risk of non-compliance and misreporting.
+
+
+=== Host Resource Group ===
+A host resource group is a collection of Dedicated Hosts that you can manage as a single entity. As you launch instances, License Manager allocates the hosts and launches instances
+ on them based on the settings that you configured. You can add existing Dedicated Hosts to a host resource group and take advantage of automated host management through License Manager.
+
+You can use host resource groups to separate hosts by purpose, for example, development test hosts versus production, organizational unit, or license constraint. After you add a Dedicated 
+Host to a host resource group, you cannot launch instances directly on the Dedicated Host, you must launch them using the host resource group.
+
+. 
+
+=== BYOL AMI ===
+There are many Amazon Machine Images (AMIs) to choose from when launching your instances, and they support a variety of operating system platforms and features. 
+To understand how the AMI you choose when launching your instance affects the bottom line on your AWS bill, you can research the associated operating system platform and billing information
+
+BYOL AMI are sourced from customer environment either using migration tool such as CloudEndure or VMImport/Export. 
+BYOL AMI carry billing code RunInstances:0800 
+
+Picture.
+Picture
+
+|===
+|Platform details | Usage operation
+
+// Space needed to maintain table headers
+|Windows License Included |RunInstances:0002
+|Windows BYOL |RunInstances:0800
+|===
+
+
+
+
+== Advantages ==
+
+. Benefit from the efficiencies of the AWS Cloud while utilizing existing investments in on-premises
+software
+. Extend the lifecycle of prior software versions
+. Import your existing Windows images to the AWS Cloud
+. Easily track licenses using AWS License Manager
+. Enforce licensing rules,stay compliant and control overages
+. Centrally report usage and discover installed software
+
+== Use cases ==
+
+==== BYOL Windows Only for web application ====
+
+AWS offer wide range of compute, storage and networking to meet the need of customer application and database system. 
+For this reason, selecting appropriate instance type and grouping them into Host resource group allows us to create a pool of dedicated host of similar Instance family.
+If you choose to run web application , you can allow C5 instances as a supported family within HRG
+
+==== BYOL Windows & SQL Enterprise ====
+
+
+==== Windows License Included & BYOL SQL Enterprise ====
