@@ -1,0 +1,5 @@
+[cols=",]
+|===
+|http://qs_launch_link[Deploy Microsoft Dedicated Hostss into a new VPC on AWS^] 
+|http://qs_launch_link[Deploy Microsoft Dedicated Hosts into an existing VPC on AWS^]
+|===

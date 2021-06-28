@@ -1,0 +1,307 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Custom resource to create LM (qs-1rud44tuk)
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Required LM Parameters
+        Parameters:
+          - LMConfigRuleName
+          - LicenseCountingType
+          - LicenseCount
+          - LicenseCountHardLimit
+    ParameterLabels:
+      LMConfigRuleName:
+        default: LMConfigRuleName
+      LicenseCountingType:
+        default: LicenseCountingType
+      LicenseCount:
+        default: LicenseCount
+      LicenseCountHardLimit:
+        default: LicenseCountHardLimit
+Parameters:
+  LMConfigRuleName:
+    Default: 'demorule'
+    Description: "Please specify license configuration rule name"
+    Type: String
+  LicenseCountingType:
+    Default: 'Core'
+    Description: "Please specify license type"
+    AllowedValues:
+      - Core
+      - vCPU
+    Type: String
+  LicenseCount:
+    Default: 100
+    Description: "Please specify total cores"
+    Type: Number
+  LicenseCountHardLimit:
+    Default: 'true'
+    Description: "Please specify accordingly to limit"
+    AllowedValues:
+      - true
+      - false
+    Type: String
+  PlatformName:
+    Default: windows-server-datacenter
+    Description: "Please specify platform name"
+    AllowedValues:
+      - windows-server-datacenter
+    Type: String
+  PlatformVersion:
+    Default: '2016'
+    Description: "Please specify platform version"
+    AllowedValues:
+      - '2016'
+      - '2012'
+      - '2008'
+      - '2008 R2'
+    Type: String
+  HostResourceGroupName:
+    Default: 'WindowsHost'
+    Description: "Please specify license configuration rule name"
+    Type: String
+  AllowedInstanceFamily:
+    Default: 'c5'
+    Description: "Please specify accordingly to limit"
+    AllowedValues:
+      - c5
+      - r5
+      - m5
+    Type: String
+  AutoAllocateHost:
+    Default: 'true'
+    Description: "Please specify accordingly to limit"
+    AllowedValues:
+      - true
+      - false
+    Type: String
+  AutoRecoverHost:
+    Default: 'true'
+    Description: "Please specify accordingly to limit"
+    AllowedValues:
+      - true
+      - false
+    Type: String
+  AutoReleaseHost:
+    Default: 'true'
+    Description: "Please specify accordingly to limit"
+    AllowedValues:
+      - true
+      - false
+    Type: String
+Resources:
+  DHCloudWatchLogGroup:
+    Type: AWS::Logs::LogGroup
+  CreateDHFunctionExecuteRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: CreateDHFunctionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action:
+                  - license-manager:*
+                  - resource-groups:*
+                  - ssm:*
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - iam:PassRole
+                Resource:
+                  - '*'
+  CreateDHFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: Create a DH instance and return the ARN.
+      Handler: index.lambda_handler
+      Runtime: python3.6
+      Timeout: '300'
+      Role: !GetAtt 'CreateDHFunctionExecuteRole.Arn'
+      Code:
+        ZipFile: |
+          import json
+          import cfnresponse
+          import boto3
+          client = boto3.client('license-manager')
+          ssm = boto3.client('ssm')
+          group = boto3.client('resource-groups')
+          def lambda_handler(event, context):
+            responseData = {}
+            if event['RequestType'] == 'Delete':
+              try:
+                print('Received delete event')
+                print(str(event))
+                print("Step1: Fetching License Manager Arn from parameter store ")
+                LMARN = ssm.get_parameter(Name=str(event['ResourceProperties']['LMConfigRuleName']))['Parameter']['Value']
+                print(LMARN)
+                print("Step2: Now deleting license manager configuration")
+                deleteLM = client.delete_license_configuration(LicenseConfigurationArn= LMARN)
+                print(deleteLM)
+                print("Step3: Now deleting SSM Parameter")
+                delssm = ssm.delete_parameter(Name=str(event['ResourceProperties']['LMConfigRuleName']))
+                print(delssm)
+                print("Step4: Now deleting host resource group")
+                delhostgrp = group.delete_group(
+                    GroupName=str(event['ResourceProperties']['HostResourceGroupName'])
+                )
+                print(delhostgrp)
+                cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+              except Exception as inst:
+                print(inst)
+                cfnresponse.send(event, context, cfnresponse.FAILED, {})
+            else:
+              try:
+                print("Step1: Creating License Manager Configuration")
+                input_dict = {}
+                input_dict['LMConfigRuleName'] = event['ResourceProperties']['LMConfigRuleName']
+                input_dict['LicenseCountingType'] = event['ResourceProperties']['LicenseCountingType']
+                input_dict['LicenseCount'] = int(event['ResourceProperties']['LicenseCount'])
+                input_dict['LicenseCountHardLimit'] = bool(event['ResourceProperties']['LicenseCountHardLimit'])
+                output = client.create_license_configuration(
+                    Name=input_dict['LMConfigRuleName'],
+                    LicenseCountingType=input_dict['LicenseCountingType'],
+                    LicenseCount=input_dict['LicenseCount'],
+                    LicenseCountHardLimit=input_dict['LicenseCountHardLimit'],
+                    LicenseRules=[
+                        '#allowedTenancy=EC2-DedicatedHost',
+                        '#licenseAffinityToHost=90'
+                        ],
+                    Tags=[
+                        {
+                            'Key': 'Name',
+                            'Value': 'QuickstartLM'
+                        },
+                    ],
+                    ProductInformationList=[
+                      {
+                          'ResourceType': 'SSM_MANAGED',
+                          'ProductInformationFilterList': [
+                              {
+                                  'ProductInformationFilterName': 'Platform Name',
+                                  'ProductInformationFilterValue': [
+                                      str(event['ResourceProperties']['PlatformName']),
+                                  ],
+                                  'ProductInformationFilterComparator': 'EQUALS'
+                              },
+                              {
+                                  'ProductInformationFilterName': 'Platform Type',
+                                  'ProductInformationFilterValue': [
+                                      str(event['ResourceProperties']['PlatformVersion']),
+                                  ],
+                                  'ProductInformationFilterComparator': 'EQUALS'
+                              }
+                          ]
+                      },
+                  ]
+                )
+                response = output['LicenseConfigurationArn']
+                print(response)
+                responseData = {}
+                responseData["LicenseArn"] = response
+                print("Step2: updating parameter store with LicenseManager Arn")
+                param = ssm.put_parameter(
+                    Name=str(event['ResourceProperties']['LMConfigRuleName']),
+                    Value= response ,
+                    Description= 'Created by QuickStart Automation',
+                    Type='String'
+                )
+                print(param)
+                print("Step3: Creating host resource group Configuration")
+                putgroup = group.create_group(
+                    Name=str(event['ResourceProperties']['HostResourceGroupName']),
+                    Configuration=[
+                        {
+                            'Type': 'AWS::EC2::HostManagement',
+                            'Parameters': [
+                                {
+                                    'Name': 'auto-release-host',
+                                    'Values': [(event['ResourceProperties']['AutoReleaseHost'])]
+                                },
+                                {
+                                    'Name': 'auto-allocate-host',
+                                    'Values': [(event['ResourceProperties']['AutoAllocateHost'])]
+                                },
+                                {
+                                    'Name': 'auto-host-recovery',
+                                    'Values': [(event['ResourceProperties']['AutoRecoverHost'])]
+                                },
+                                {
+                                    'Name': 'allowed-host-families',
+                                    'Values': [ (event['ResourceProperties']['AllowedInstanceFamily'])]
+                                },
+                                {
+                                    'Name': 'allowed-host-based-license-configurations',
+                                    'Values': [ response ]
+                                }
+                            ]
+                        },
+                        {
+                            "Type": "AWS::ResourceGroups::Generic",
+                            "Parameters": [
+                                {
+                                    "Name": "allowed-resource-types",
+                                    "Values": [ "AWS::EC2::Host" ]
+                                },
+                                {
+                                    "Name": "deletion-protection",
+                                    "Values": [ "UNLESS_EMPTY" ]
+                                }
+                        ]
+                      }
+                  ]
+                )
+                garn = putgroup['Group']['GroupArn']
+                print(garn)
+                responseData["GroupArn"] = garn
+                cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+              except Exception as inst:
+                print(inst)
+                cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+  CreateDH:
+    Type: Custom::LicenseManager
+    Properties:
+      ServiceToken: !GetAtt 'CreateDHFunction.Arn'
+      LMConfigRuleName: !Ref 'LMConfigRuleName'
+      LicenseCountingType: !Ref 'LicenseCountingType'
+      LicenseCount: !Ref 'LicenseCount'
+      LicenseCountHardLimit: !Ref 'LicenseCountHardLimit'
+      HostResourceGroupName: !Ref 'HostResourceGroupName'
+      AllowedInstanceFamily: !Ref 'AllowedInstanceFamily'
+      AutoAllocateHost: !Ref 'AutoAllocateHost'
+      AutoRecoverHost: !Ref 'AutoRecoverHost'
+      AutoReleaseHost: !Ref 'AutoReleaseHost'
+      PlatformName: !Ref 'PlatformName'
+      PlatformVersion: !Ref 'PlatformVersion'
+      Version: 1
+Outputs: 
+    LicenseArn:
+      Description: Message returned from Lambda
+      Value:
+        Fn::GetAtt:
+        - CreateDH #Output from the Custom Resource
+        - LicenseArn
+    GroupArn:
+      Description: Message returned from Lambda
+      Value:
+        Fn::GetAtt:
+        - CreateDH #Output from the Custom Resource
+        - GroupArn
