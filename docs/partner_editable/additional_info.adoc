@@ -15,12 +15,6 @@ Open the License Manager console at https://console.aws.amazon.com/license-manag
 In the left navigation pane, choose Host resource groups.
 
 == Provisioning ==
-Once the QuickStart deployment completes, navigate to the output section of the CloudFormation to record the following.
-
-. GroupArn - This is the host resource group ARN
-. LicenseArn - This is License Configuration ARN
-
-PICTURE
 
 License Manager supports different deployment options to enforce the license rules.
 
@@ -28,6 +22,13 @@ License Manager supports different deployment options to enforce the license rul
 * CloudFormation
 * AWS SDK's and tools
 * AWS Service Catalog
+
+Once the QuickStart deployment completes, navigate to the output section of the CloudFormation to record the following.
+
+. GroupArn - This is the host resource group ARN
+. LicenseArn - This is License Configuration ARN
+
+image::../images/OutputARN.jpeg[additional_info]
 
 In this deployment guide, we will show how to provision using Launch template, AWS Cli and CloudFormation. 
 For other deployment methods , you may refer to AWS documentation. 

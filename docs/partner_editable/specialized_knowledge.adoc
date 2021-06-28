@@ -7,6 +7,9 @@ This Quick Start also assumes familiarity with <knowledge expectations specific 
 
 === Understanding DH configuration option ===
 
+When planing to implement dedicated host environment, it is important to understand dedicated host configuration to know the capacity and supported instance type on dedicated host.
+This depends on the Instance family you choose to build your dedicated host environment with.
+
 Dedicated Hosts powered by the Amazon Web Services Nitro System support multiple instance types within the same instance family on a host.
 For example, when you allocate a R5 Dedicated Host, you can use a host with 2 sockets and 48 physical cores to run different R5 instance types 
 such as r5.2xlarge, r5.4xlarge, and others on the same host. You can run any number of instances up to the core capacity associated with the host.
@@ -16,9 +19,9 @@ Support for multiple instance types on the same Dedicated Host is available for 
     c5, m5, r5, c5n, r5n, and m5n
 
    
-Other instance families support only a single instance type on the same Dedicated Host
+Instance families that comes with Instant Store ( local NVme) supports only a single instance type on the same Dedicated Host
 
-For example r5d doesn't support multiple instance type. Hence, you need to select instance type and capacity according to your requirement. 
+For example r5d doesn't support multiple instance type on the same dedicated host. Hence, you need to select instance type and configuration that Instance type support to match your requirement. 
 
 [width="25%",options="header",]
 |=======
@@ -36,7 +39,7 @@ https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/
 The QuickStart will use parameter *LicenseCount* to configure the optional License Manager parameter *License Count*.
 This represents the total number of Licenses managed by the configuration rule.
 
-License Manager tracks license counts by vCPU or Core.
+License Manager can track license counts by vCPU or Core. The QuickStart parameter *LicenseType* will be accept this preference during deployment.
 
 To learn more about License Manager Parameters and rules.
 

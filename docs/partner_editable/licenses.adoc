@@ -4,7 +4,7 @@ will affect the cost of deployment. See the pricing pages for each AWS service y
 
 The Quick Start parameter is configured to accept two licensing options for Windows Server DataCenter edition. You can:
 
-* Use your volume licensing software and mobilize the license. When using your own Window Server license, you need to import your own images
+* Use your volume licensing software and mobilize the license. When using your own Window Server license, you need to import your own images into Amazon Machine Image (AMI).
 
 * Use the Amazon Machine Image (AMI) for Windows Server with license costs included. When using AWS-provided Windows Server licensing, you don't need to import own Windows Images.
 
