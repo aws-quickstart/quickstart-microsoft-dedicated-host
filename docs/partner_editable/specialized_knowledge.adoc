@@ -7,7 +7,8 @@ This Quick Start also assumes familiarity with Microsoft licensing.
 
 === Understanding Dedicated Hosts configuration option
 
-When planing to implement a Dedicated Host environment, it is important to understand the Dedicated Host configuration to know the capacity and supported instance types. This depends on the instance family you select when deploying your Dedicated Host environment.
+When planning your dedicated host environment, it is important to understand dedicated host configuration to know the instance capacity per host and supported instance size on the host. 
+This varies between different Instance family you choose to build your dedicated host environment. 
 
 Dedicated Hosts powered by the Amazon Web Services Nitro System support multiple instance types within the same instance family on a host.
 For example, when you allocate an R5 Dedicated Host, you can use a host with 2 sockets and 48 physical cores to run different R5 instance types 
@@ -18,7 +19,10 @@ Support for multiple instance types on the same Dedicated Host is available for 
     c5, m5, r5, c5n, r5n, and m5n
 
    
-Instance families that come with Instant Store (local NVme) support only a single instance type on the same Dedicated Host. For example, r5d doesn't support multiple instance type on the same dedicated host. Hence, you need to select an instance type and configuration that instance type supports to match your requirement. 
+Instance families that come with Instant Store (local NVme) support only a single instance size on the same Dedicated Host. With r5d instance family, you need to pick a single instance size during allocation. 
+
+The table below shows instance capacity and size for r5d. As per the table below, choosing r5d.2xlarge will provide a capacity of 12 Instance capacity on the host.
+
 
 [width="25%",options="header",]
 |=======
