@@ -1,1 +1,9 @@
-// placeholder
+
+=== Parameters for deploying into an existing VPC
+include::entrypoint-existing-vpc.template.adoc[]
+
+=== Parameters for deploying into a new VPC
+include::entrypoint-new-vpc.template.adoc[]
+
+=== Parameters for launching into an existing VPC (standalone)
+include::dedicatedhost.adoc[]

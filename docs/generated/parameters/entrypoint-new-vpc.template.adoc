@@ -1,0 +1,66 @@
+
+.Network configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|**NO_LABEL**
+(`AvailabilityZones`)|`**__Requires input__**`|List of Availability Zones (AZs) to use for the subnets in the VPC. Note: The logical order is preserved and only 2 AZs are used for this deployment.|VPC CIDR
+(`VPCCIDR`)|`10.0.0.0/16`|CIDR block for the VPC.|Private subnet 1 CIDR
+(`PrivateSubnet1CIDR`)|`10.0.0.0/19`|CIDR block for private subnet 1 located in Availability Zone 1.|Private subnet 2 CIDR
+(`PrivateSubnet2CIDR`)|`10.0.32.0/19`|CIDR block for private subnet 2 located in Availability Zone 2.|Public subnet 1 CIDR
+(`PublicSubnet1CIDR`)|`10.0.128.0/20`|CIDR Block for the public DMZ subnet 1 located in Availability Zone 1.|Public subnet 2 CIDR
+(`PublicSubnet2CIDR`)|`10.0.144.0/20`|CIDR Block for the public DMZ subnet 2 located in Availability Zone 2.
+|===
+.Amazon EC2 configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Key pair name
+(`KeyPairName`)|`**__Requires input__**`|Public/private key pairs allow you to securely connect to your instance after it launches.|Remote Desktop Gateway instance type
+(`RDGWInstanceType`)|`t2.large`|Amazon EC2 instance type for the Remote Desktop Gateway instances.
+|===
+.Microsoft Remote Desktop Gateway configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Number of RDGW hosts
+(`NumberOfRDGWHosts`)|`1`|Enter the number of Remote Desktop Gateway hosts to create. If set to 0 no Remote Desktop Gateway auto-scaling group will be created.|Admin user name
+(`AdminUser`)|`StackAdmin`|User name for the new local administrator account.|Admin password
+(`AdminPassword`)|`**__Requires input__**`|Password for the administrative account. Must be at least 8 characters containing letters, numbers and symbols.|Domain DNS name
+(`DomainDNSName`)|`example.com`|Fully qualified domain name (FQDN), such as example.com.|Allowed Remote Desktop Gateway external access CIDR
+(`RDGWCIDR`)|`**__Requires input__**`|Allowed CIDR block for external access to the Remote Desktop Gateways.
+|===
+.License Manager configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|LCM config rule name
+(`LMConfigRuleName`)|`demorule`|Please specify license configuration rule name|License counting type
+(`LicenseCountingType`)|`Core`|Please specify license type|License count
+(`LicenseCount`)|`100`|Please specify total cores|License count hard limit
+(`LicenseCountHardLimit`)|`true`|Please specify accordingly to limit|Platform name
+(`PlatformName`)|`windows-server-datacenter`|Please specify platform name|Platform version
+(`PlatformVersion`)|`2016`|Please specify platform version
+|===
+.Host Resource Group configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Host resource group name
+(`HostResourceGroupName`)|`WindowsHost`|Please specify license configuration rule name|Allowed instance family
+(`AllowedInstanceFamily`)|`c5`|Please specify accordingly to limit|Automatically allocate host
+(`AutoAllocateHost`)|`true`|Please specify accordingly to limit|Automatically recover host
+(`AutoRecoverHost`)|`true`|Please specify accordingly to limit|Automatically release host
+(`AutoReleaseHost`)|`true`|Please specify accordingly to limit
+|===
+.BYOL configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|BYOL instance AMI
+(`BYOLAMI`)|`ami-077f1edd46ddb3129`|Please specify ami ID|BYOL instance type
+(`BYOLInstanceType`)|`c5.xlarge`|Amazon EC2 instance type for BYOL instances.|Number of BYOL instances
+(`NumberOfBYOLInstances`)|`0`|Enter the number of BYOL Instances to be launched.
+|===
+.AWS Quick Start configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Quick Start S3 bucket name
+(`QSS3BucketName`)|`aws-quickstart`|Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See https://aws-quickstart.github.io/option1.html.|Quick Start S3 key prefix
+(`QSS3KeyPrefix`)|`quickstart-microsoft-dedicated-host/`|S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html and https://aws-quickstart.github.io/option1.html.|Quick Start S3 bucket Region
+(`QSS3BucketRegion`)|`us-east-1`|Region of staging bucket (BucketName).
+|===
