@@ -38,9 +38,9 @@ The Quick Start will create a Launch Template and Auto Scaling Group using two p
 LaunchTemplateData is configured with 
 
         Placement:
-          HostResourceGroupArn: <Host resource group ARN>
+          HostResourceGroupArn: <Replace with host resource group ARN>
         LicenseSpecifications:
-          - LicenseConfigurationArn: <License Configuration ARN>
+          - LicenseConfigurationArn: <Replace with License Configuration ARN>
 
 Auto scaling is configured to take advantage of multiple Availability Zones represented by the private subnets used by the auto scaling group.
 Therefore, auto scaling should be carefully considered depending on the workload you plan to run on Dedicated Host infrastructure.
@@ -67,7 +67,7 @@ To deploy using CloudFormation, ensure the resource properties include both Host
     AvailabilityZone: String
     BlockDeviceMappings: 
         - BlockDeviceMapping
-    HostResourceGroupArn: String
+    HostResourceGroupArn: String <Replace with host resource group ARN>
     IamInstanceProfile: String
     ImageId: String
     InstanceType: String
@@ -103,6 +103,10 @@ The following information is available in the graph for a license configuration:
 * Number of licenses remaining
 * Whether the rules are enforced
 * Number of hosts for each tenancy type
+
+=== Track usage through the built-in dashboard
+Open the License Manager console at https://console.aws.amazon.com/license-manager/
+In the left navigation pane, choose Dashboard.
 
 === Run Windows updates
 

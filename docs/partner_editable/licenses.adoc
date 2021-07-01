@@ -1,6 +1,4 @@
-The AWS CloudFormation template for this Quick Start includes configuration parameters that you can customize. 
-Some of these settings, such as instance type, volume size, or opting to use the Amazon-provided image for SQL Server, 
-will affect the cost of deployment. See the pricing pages for each AWS service you will be using for cost estimates.
+The AWS CloudFormation template for this Quick Start includes configuration parameters that you can customize. Some of these settings, such as instance type or opting to use the Amazon-provided License Included AMI for Windows Server, will affect the cost of deployment. See the pricing pages for each AWS service you will be using for cost estimates.
 
 The Quick Start is configured to accept two licensing options for Windows Server DataCenter edition. You can:
 
