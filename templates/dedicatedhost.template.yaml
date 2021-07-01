@@ -143,7 +143,7 @@ Parameters:
       - m5.xlarge
       - m5.2xlarge
   BYOLAMI:
-    Default: 'ami-XXXXX'
+    Default: 'ami-077f1edd46ddb3129'
     Description: "Please specify ami ID"
     Type: String
   VPCID:

@@ -264,7 +264,7 @@ Parameters:
       - m5.xlarge
       - m5.2xlarge
   BYOLAMI:
-    Default: 'ami-XXXXX'
+    Default: 'ami-077f1edd46ddb3129'
     Description: "Please specify ami ID"
     Type: String
   RDGWCIDR:
@@ -349,21 +349,33 @@ Parameters:
       - false
     Type: String
 Rules:
-  CheckSupportedInstances:
-    RuleCondition: !Not
-      - !Not
-        - !Contains
-          - - m4.xlarge
-            - m4.2xlarge
-            - m4.4xlarge
-            - m4.large
-          - !Ref 'RDGWInstanceType'
+  ValidC5InstanceType:
+    RuleCondition: !Equals
+      - !Ref AllowedInstanceFamily
+      - c5
     Assertions:
-      - Assert: !Not
-          - !Contains
-            - - eu-west-3
-            - !Ref 'AWS::Region'
-        AssertDescription: M4 instances are not available in the Paris region.
+      - Assert: !Or
+        - !Equals [!Ref BYOLInstanceType, 'c5.xlarge']
+        - !Equals [!Ref BYOLInstanceType, 'c5.2xlarge']
+        AssertDescription: "Instance type must match instance family"
+  ValidR5InstanceType:
+    RuleCondition: !Equals
+      - !Ref AllowedInstanceFamily
+      - r5
+    Assertions:
+      - Assert: !Or
+        - !Equals [!Ref BYOLInstanceType, 'r5.xlarge']
+        - !Equals [!Ref BYOLInstanceType, 'r5.2xlarge']
+        AssertDescription: "Instance type must match instance family"
+  ValidM5InstanceType:
+    RuleCondition: !Equals
+      - !Ref AllowedInstanceFamily
+      - m5
+    Assertions:
+      - Assert: !Or
+        - !Equals [!Ref BYOLInstanceType, 'm5.xlarge']
+        - !Equals [!Ref BYOLInstanceType, 'm5.2xlarge']
+        AssertDescription: "Instance type must match instance family"
 Conditions:
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
   IncludeRDGW: !Not
