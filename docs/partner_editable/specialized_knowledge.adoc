@@ -3,15 +3,14 @@
 // Include links if helpful. 
 // You don't need to list AWS services or point to general info about AWS; the boilerplate already covers this.
 
-This Quick Start also assumes familiarity with <knowledge expectations specific to this Quick Start>.
+This Quick Start also assumes familiarity with Microsoft licensing.
 
-=== Understanding DH configuration option ===
+=== Understanding Dedicated Hosts configuration option
 
-When planing to implement dedicated host environment, it is important to understand dedicated host configuration to know the capacity and supported instance type on dedicated host.
-This depends on the Instance family you choose to build your dedicated host environment with.
+When planing to implement a Dedicated Host environment, it is important to understand the Dedicated Host configuration to know the capacity and supported instance types. This depends on the instance family you select when deploying your Dedicated Host environment.
 
 Dedicated Hosts powered by the Amazon Web Services Nitro System support multiple instance types within the same instance family on a host.
-For example, when you allocate a R5 Dedicated Host, you can use a host with 2 sockets and 48 physical cores to run different R5 instance types 
+For example, when you allocate an R5 Dedicated Host, you can use a host with 2 sockets and 48 physical cores to run different R5 instance types 
 such as r5.2xlarge, r5.4xlarge, and others on the same host. You can run any number of instances up to the core capacity associated with the host.
 
 Support for multiple instance types on the same Dedicated Host is available for the following instance families: 
@@ -19,9 +18,7 @@ Support for multiple instance types on the same Dedicated Host is available for 
     c5, m5, r5, c5n, r5n, and m5n
 
    
-Instance families that comes with Instant Store ( local NVme) supports only a single instance type on the same Dedicated Host
-
-For example r5d doesn't support multiple instance type on the same dedicated host. Hence, you need to select instance type and configuration that Instance type support to match your requirement. 
+Instance families that come with Instant Store (local NVme) support only a single instance type on the same Dedicated Host. For example, r5d doesn't support multiple instance type on the same dedicated host. Hence, you need to select an instance type and configuration that instance type supports to match your requirement. 
 
 [width="25%",options="header",]
 |=======
@@ -34,27 +31,19 @@ To learn more about dedicated host configuration, please refer to the AWS Docume
 https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/
 
 
-=== Maintain License count === 
+=== Maintain license count
 
-The QuickStart will use parameter *LicenseCount* to configure the optional License Manager parameter *License Count*.
-This represents the total number of Licenses managed by the configuration rule.
+The Quick Start will use parameter *LicenseCount* to configure the optional License Manager parameter *License Count*.
+This represents the total number of licenses managed by the configuration rule.
 
-License Manager can track license counts by vCPU or Core. The QuickStart parameter *LicenseType* will be accept this preference during deployment.
+License Manager can track license counts by vCPU or Core. The Quick Start parameter *LicenseType* selects this preference during deployment.
 
-To learn more about License Manager Parameters and rules.
-
-https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html
+To learn more about License Manager parameters and rules, please visit https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html.
 
 
-=== License affinity to host ===
+=== License affinity to host
 
-The QuickStart is configured to follow *The 90 days clause*
-
-This ability to enforce assignment rules further simplifies the Windows Server and SQL Server BYOL experience on AWS.
-
-For Microsoft License Not eligible for Mobility, software license may require a specific duration of time before license can be reassigned to another host.
-
-Within License Manager configuration, the QuickStart will set *License affinity to host (in days)* to *90 days*
+The Quick Start is configured to follow *the 90 days clause*, wherein a Microsoft license cannot be reassigned within 90 days. This ability to enforce assignment rules further simplifies the Windows Server and SQL Server BYOL experience on AWS. Within License Manager configuration, the Quick Start will set *License affinity to host (in days)* to *90 days*.
 
     License affinity to host (in days) — Restricts license usage to the host for the specified number of days. The range is 1 to 180. The counting type must be Cores or Sockets. After the affinity period elapses, the license will be available for reuse within 24 hours.
 

@@ -1,43 +1,40 @@
 
 == Post-deployment steps
+
 === Review License Manager Rules
-To get started with License Manager
 
-Open the License Manager console at https://console.aws.amazon.com/license-manager/. 
+To get started with License Manager, open the License Manager console at https://console.aws.amazon.com/license-manager/. 
 
-In the left navigation pane, choose Customer managed licenses.
+In the left navigation pane, choose *Customer managed licenses*.
 
 === Review Host Resource Group
-Now, lets review host resource group configuration.
 
-Open the License Manager console at https://console.aws.amazon.com/license-manager/.
+To review the host resource group configuration, open the License Manager console at https://console.aws.amazon.com/license-manager/.
 
-In the left navigation pane, choose Host resource groups.
+In the left navigation pane, choose *Host resource groups*.
 
-== Provisioning ==
+=== Provisioning
 
-License Manager supports different deployment options to enforce the license rules.
+License Manager supports different deployment options to enforce license rules:
 
 * Launch Template and AMI
 * CloudFormation
 * AWS SDK's and tools
 * AWS Service Catalog
 
-Once the QuickStart deployment completes, navigate to the output section of the CloudFormation to record the following.
+Once the Quick Start deployment completes, navigate to the output section of the CloudFormation stack to record the following:
 
-. GroupArn - This is the host resource group ARN
-. LicenseArn - This is License Configuration ARN
+* GroupArn - This is the host resource group ARN
+* LicenseArn - This is license configuration ARN
 
 image::../images/OutputARN.jpeg[additional_info]
 
-In this deployment guide, we will show how to provision using Launch template, AWS Cli and CloudFormation. 
-For other deployment methods , you may refer to AWS documentation. 
+In this deployment guide, we will show how to provision using Launch Template, AWS CLI, and CloudFormation. 
+For other deployment methods, you may refer to AWS documentation. https://aws.amazon.com/blogs/mt/mechanisms-to-govern-license-usage-with-aws-license-manager/
 
-https://aws.amazon.com/blogs/mt/mechanisms-to-govern-license-usage-with-aws-license-manager/
+==== Autoscaling
 
-=== Autoscaling ===
-
-The QuickStart will create Launch Template and Autoscaling Group using two private subnets.
+The Quick Start will create a Launch Template and Auto Scaling Group using two private subnets.
 LaunchTemplateData is configured with 
 
         Placement:
@@ -45,15 +42,13 @@ LaunchTemplateData is configured with
         LicenseSpecifications:
           - LicenseConfigurationArn: <License Configuration ARN>
 
-Autoscaling is configured to take advantage of multiple availability zones represented by the private subnets configured within Autoscaling group.
-Hence, autoscaling should be carefully considered depending on the workload you plan to run on dedicated host Infrastructure.
+Auto scaling is configured to take advantage of multiple Availability Zones represented by the private subnets used by the auto scaling group.
+Therefore, auto scaling should be carefully considered depending on the workload you plan to run on Dedicated Host infrastructure.
 
-By default, the autoscaling value is set to 0. 
-For example, if you set the desired, min and max to 2 during the deployment , you will launch the Instances evenly utilizing both availability zones.
-This mean 2 dedicated hosts will be allocated for you per availability zone. 
+By default, the auto scaling value is set to 0. If, for example, you set the desired, min and max values to 2 during the deployment, you will launch two instances utilizing both Availability Zones. This mean 1 dedicated host will be allocated for you per Availability Zone. 
 
 
-=== AWS CLI ===
+==== AWS CLI
 
     aws ec2 run-instances \
     --instance-type c5.2xlarge \
@@ -63,7 +58,7 @@ This mean 2 dedicated hosts will be allocated for you per availability zone.
     --placement HostResourceGroupArn= <Host resource group ARN>
 
 
-=== CloudFormation ===
+==== CloudFormation
 
 To deploy using CloudFormation, ensure the resource properties include both HostResourceGroupArn & LicenseSpecifications
 
@@ -96,38 +91,28 @@ To deploy using CloudFormation, ensure the resource properties include both Host
     Volumes: 
         - Volume
 
-== Post-Launch Task ==
-=== Validate License Manager dashboard ===
+=== Validate License Manager dashboard
 
-The Dashboard section of the AWS License Manager console provides graphs to track the license consumption associate with each license configuration. The dashboard also displays alerts resulting from license rule violations.
+The Dashboard section of the AWS License Manager console provides graphs to track the license consumption associated with each license configuration. The dashboard also displays alerts resulting from license rule violations.
 
 The following information is available in the graph for a license configuration:
 
-. License configuration name
-
-. License type
-
-. Licenses consumed
-
-. Number of licenses remaining
-
-. Whether the rules are enforced
-
-. Number of hosts for each tenancy type
+* License configuration name
+* License type
+* Licenses consumed
+* Number of licenses remaining
+* Whether the rules are enforced
+* Number of hosts for each tenancy type
 
 === Run Windows updates
 
-In order to ensure the deployed servers' operating systems and installed applications have the latest Microsoft updates, run Windows Update on each server.
+If you deployed any Windows instances, in order to ensure the deployed servers' operating systems and installed applications have the latest Microsoft updates, run Windows Update on each server.
 
-Create an RDP session from the Remote Desktop Gateway server to BYOL Windows server.
-
-Open the Settings application.
-
-Open Update & Security.
-
-Click Check for updates.
-
-Install any updates and reboot if necessary.
+* Create an RDP session from the Remote Desktop Gateway server to BYOL Windows server.
+* Open the Settings application.
+* Open Update & Security.
+* Click Check for updates.
+* Install any updates and reboot if necessary.
 
 
 

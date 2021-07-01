@@ -29,19 +29,19 @@ internet access for resources in the private subnets.*
 [.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
 
 
-== Advantages ==
+=== Advantages
 
-. Benefit from the efficiencies of the AWS Cloud while utilizing existing investments in on-premises
+* Benefit from the efficiencies of the AWS Cloud while utilizing existing investments in on-premises
 software
-. Extend the lifecycle of prior software versions
-. Import your existing Windows images to the AWS Cloud
-. Easily track licenses using AWS License Manager
-. Enforce licensing rules,stay compliant and control overages
-. Centrally report usage and discover installed software
+* Extend the lifecycle of prior software versions
+* Import your existing Windows images to the AWS Cloud
+* Easily track licenses using AWS License Manager
+* Enforce licensing rules, stay compliant and control overages
+* Centrally report usage and discover installed software
 
-== Use cases ==
+=== Use cases
 
-=== Eligible Software 
+==== Eligible software 
 
 You can leverage a variety of existing software licenses on AWS using Amazon EC2 Dedicated hosts.
 
@@ -54,16 +54,15 @@ Example include:
 *  Microsoft SharePoint Server 
 *  All other software covered under the Microsoft product terms
 
-=== BYOL Windows for Eligible Software ===
+==== BYOL Windows for Eligible Software
 
 Import your own VM Images using VM Import/Export or host based replication software to create Amazon Machine Image ( AMI)
 
 image::../images/BYOL.png[Architecture]
 
-=== Windows License Included for Eligible Software ===
+==== Windows License Included for Eligible Software
 
-You can also run license included Windows Server instances on EC2 Dedicated Hosts, which enables you to use fully compliant Windows Server software licenses from AWS with a pay-as-you-go model. 
-This helps in scenarios where you have eligible software licenses to use on Dedicated Hosts but do not have accompanying Windows Server licenses to run the eligible software to Dedicated host environment. 
+You can also run license included Windows Server instances on EC2 Dedicated Hosts, which enables you to use fully compliant Windows Server software licenses from AWS with a pay-as-you-go model. This helps in scenarios where you have eligible software licenses to use on Dedicated Hosts but do not have accompanying Windows Server licenses to run the eligible software to Dedicated Host environment. 
 
 You can use the Windows Server AMIs via the AWS Management Console, APIs, and CLI
 

@@ -211,7 +211,7 @@ Parameters:
       - m5.xlarge
       - m5.2xlarge
   BYOLAMI:
-    Default: 'ami-0ddecc3c55ef884bc'
+    Default: 'ami-XXXXX'
     Description: "Please specify BYOL Image AMI ID"
     Type: String
   RDGWCIDR:
