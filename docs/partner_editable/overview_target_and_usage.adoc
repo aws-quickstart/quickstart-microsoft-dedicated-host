@@ -58,7 +58,7 @@ BYOL (Bring your own License) AMIs are sourced from the customer environment usi
 
 To learn more about creating a BYOL AMI, please visit https://aws.amazon.com/blogs/modernizing-with-aws/how-to-create-windows-server-bring-your-own-license-amis-from-on-premises-with-vm-import-export/
 
-The following table lists some of the platform details and usage operation values that can be displayed on the Instances or AMIs pages in the Amazon EC2 console, or in the response that is returned by the describe-images command.
+The following table lists some of the platform details and usage operation values that can be displayed on the Instances or AMIs pages in the Amazon EC2 console, or in the response that is returned by the describe-images command. To learn more about billing codes & AMIs, please visit https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html.
 
 |===
 |Platform details | Usage operation
@@ -68,4 +68,3 @@ The following table lists some of the platform details and usage operation value
 |Windows BYOL |RunInstances:0800
 |===
 
-To learn more about billing codes & AMIs, please visit https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html.
