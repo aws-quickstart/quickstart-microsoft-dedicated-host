@@ -54,7 +54,7 @@ https://docs.aws.amazon.com/license-manager/latest/userguide/host-resource-group
 
 There are many Amazon Machine Images (AMIs) to choose from when launching your instances, and they support a variety of operating system platforms and features. To understand how the AMI you choose when launching your instance affects the bottom line on your AWS bill, you can research the associated operating system platform and billing information
 
-BYOL (Bring your own License) AMIs are sourced from the customer environment using a migration tool such as CloudEndure or VMImport/Export. BYOL AMIs carry billing code RunInstances:0800 
+License Manager helps customers with the tasks involving license reporting, governance and managing true-ups and audits.  But Microsoft licensing also requires customers to bring their own media, which entails managing patching, updates, and golden AMI creation. Windows BYOL AMI carry billing code RunInstances:0800 
 
 To learn more about creating a BYOL AMI, please visit https://aws.amazon.com/blogs/modernizing-with-aws/how-to-create-windows-server-bring-your-own-license-amis-from-on-premises-with-vm-import-export/
 

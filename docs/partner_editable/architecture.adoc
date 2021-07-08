@@ -52,7 +52,6 @@ Example include:
 *  Microsoft Remote Desktop Services
 *  Microsoft Exchange Server 
 *  Microsoft SharePoint Server 
-*  All other software covered under the Microsoft product terms
 
 ==== BYOL Windows for Eligible Software
 

@@ -2,7 +2,8 @@ The AWS CloudFormation template for this Quick Start includes configuration para
 
 The Quick Start is configured to accept two licensing options for Windows Server DataCenter edition. You can:
 
-* Use your volume licensing software and mobilize the license. When using your own Window Server license, you need to import your own images into Amazon Machine Image (AMI).
+* Use your volume licensing software and bring the license. When using your own Window Server license, you need to import your own images into Amazon Machine Image (AMI).
 
 * Use the Amazon Machine Image (AMI) for Windows Server with license costs included. When using AWS-provided Windows Server licensing, you don't need to import your own Windows Images.
 
+The use of Microsoft software is subject to Microsoft's terms. You are responsible for complying with Microsoft licensing. This document is only a guide for your convenience and you are not entitled to rely on its descriptions and it does not constitute legal advice. If you have questions about your licensing or rights to Microsoft software, please consult your legal team, Microsoft, or your Microsoft reseller. This page is up to date with current https://www.microsoft.com/en-us/licensing/product-licensing/products.aspx[Microsoft Product Terms].
