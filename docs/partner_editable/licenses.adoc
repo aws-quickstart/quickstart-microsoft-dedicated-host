@@ -14,15 +14,10 @@ License Manager helps you with license reporting, governance, and managing true-
 
 To learn more about creating a BYOL AMI, see https://aws.amazon.com/blogs/modernizing-with-aws/how-to-create-windows-server-bring-your-own-license-amis-from-on-premises-with-vm-import-export/[How to create Windows Server Bring-Your-Own-License AMIs from on-premises with VM Import/Export].
 
-The following table lists platform details and usage operation values that can be displayed on the instances or AMI pages in the Amazon EC2 console, or in the response that is returned by the describe-images command. To learn more about billing codes and AMIs, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html[AMI billing information fields].
+The following lists platform details and usage operation values that can be displayed on the instances or AMI pages in the Amazon EC2 console, or in the response that is returned by the describe-images command. To learn more about billing codes and AMIs, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html[AMI billing information fields]
 
-|===
-|Platform details | Usage operation
-
-// Space needed to maintain table headers
-|Windows License Included |RunInstances:0002
-|Windows BYOL |RunInstances:0800
-|===
+* Windows License Included: RunInstances:0002
+* Windows BYOL: RunInstances:0800
 
 ==== AMI for Windows Server with license costs included
 
