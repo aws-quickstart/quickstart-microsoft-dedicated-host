@@ -34,7 +34,7 @@ Metadata:
           - DomainDNSName
           - RDGWCIDR
       - Label:
-          default: License Manager configuration
+          default: AWS License Manager configuration
         Parameters:
           - LMConfigRuleName
           - LicenseCountingType
@@ -43,7 +43,7 @@ Metadata:
           - PlatformName
           - PlatformVersion
       - Label:
-          default: Host Resource Group configuration
+          default: Host resource group configuration
         Parameters:
           - HostResourceGroupName
           - AllowedInstanceFamily
@@ -94,7 +94,7 @@ Metadata:
       LicenseCountHardLimit:
         default: License count hard limit
       NumberOfRDGWHosts:
-        default: Number of RDGW hosts
+        default: Number of Remote Desktop Gateway hosts
       PlatformName:
         default: Platform name
       PlatformVersion:
@@ -126,7 +126,7 @@ Metadata:
 Parameters:
   AdminPassword:
     Description: Password for the administrative account. Must be at least 8 characters
-      containing letters, numbers and symbols.
+      containing letters, numbers, and symbols.
     Type: String
     MinLength: '8'
     MaxLength: '32'
@@ -158,8 +158,8 @@ Parameters:
       - '3'
       - '4'
     Default: '1'
-    Description: Enter the number of Remote Desktop Gateway hosts to create. If set to 0 no
-      Remote Desktop Gateway auto-scaling group will be created.
+    Description: The number of Remote Desktop Gateway hosts to create. If set to 0, the
+      Remote Desktop Gateway Auto Scaling group is not created.
     Type: String
   NumberOfBYOLInstances:
     AllowedValues:
@@ -168,7 +168,7 @@ Parameters:
       - '2'
       - '4'
     Default: '0'
-    Description: Enter the number of BYOL Instances to be launched.
+    Description: The number of BYOL instances to launch.
     Type: String
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
@@ -237,12 +237,12 @@ Parameters:
       - m5.2xlarge
   BYOLAMI:
     Default: 'ami-077f1edd46ddb3129'
-    Description: "Please specify ami ID"
+    Description: "AMI ID."
     Type: String
   RDGWCIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/x.
-    Description: Allowed CIDR block for external access to the Remote Desktop Gateways.
+    Description: Allowed CIDR block for external access to the Remote Desktop Gateway instances.
     Type: String
   VPCCIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -251,7 +251,7 @@ Parameters:
     Description: CIDR block for the VPC.
     Type: String
   VPCID:
-    Description: ID of the VPC (e.g., vpc-0343606e).
+    Description: ID of the VPC (for example, vpc-0343606e).
     Type: AWS::EC2::VPC::Id
   PublicSubnet1ID:
     Description: ID of the public subnet 1 that you want to provision the first Remote
@@ -262,7 +262,7 @@ Parameters:
       Desktop Gateway into (for example, subnet-e3246d8e).
     Type: AWS::EC2::Subnet::Id
   PrivateSubnet1AID:
-    Description: ID of the Private subnet 1 you want to provision the second Remote
+    Description: ID of the private subnet 1 you want to provision the second Remote
       Desktop Gateway into (for example, subnet-e3246d8e).
     Type: AWS::EC2::Subnet::Id
   PrivateSubnet2AID:
@@ -271,39 +271,39 @@ Parameters:
     Type: AWS::EC2::Subnet::Id
   HostResourceGroupName:
     Default: 'WindowsHost'
-    Description: "Please specify license configuration rule name"
+    Description: "The host resource group name."
     Type: String
   LMConfigRuleName:
     Default: 'demorule'
-    Description: "Please specify license configuration rule name"
+    Description: "The license configuration rule name."
     Type: String
   LicenseCountingType:
     Default: 'Core'
-    Description: "Please specify license type"
+    Description: "The license type."
     AllowedValues:
       - Core
       - vCPU
     Type: String
   LicenseCount:
     Default: 100
-    Description: "Please specify total cores"
+    Description: "The total license count."
     Type: Number
   LicenseCountHardLimit:
     Default: 'true'
-    Description: "Please specify accordingly to limit"
+    Description: "Specify whether a hard limit exists for the license count."
     AllowedValues:
       - true
       - false
     Type: String
   PlatformName:
     Default: windows-server-datacenter
-    Description: "Please specify platform name"
+    Description: "The platform name."
     AllowedValues:
       - windows-server-datacenter
     Type: String
   PlatformVersion:
     Default: '2016'
-    Description: "Please specify platform version"
+    Description: "The platform version."
     AllowedValues:
       - '2016'
       - '2012'
@@ -312,7 +312,7 @@ Parameters:
     Type: String
   AllowedInstanceFamily:
     Default: 'c5'
-    Description: "Please specify accordingly to limit"
+    Description: "The allowed instance family."
     AllowedValues:
       - c5
       - r5
@@ -320,21 +320,21 @@ Parameters:
     Type: String
   AutoAllocateHost:
     Default: 'true'
-    Description: "Please specify accordingly to limit"
+    Description: "Specify whether to automatically allocate the host."
     AllowedValues:
       - true
       - false
     Type: String
   AutoRecoverHost:
     Default: 'true'
-    Description: "Please specify accordingly to limit"
+    Description: "Specify whether to automatically recover the host."
     AllowedValues:
       - true
       - false
     Type: String
   AutoReleaseHost:
     Default: 'true'
-    Description: "Please specify accordingly to limit"
+    Description: "Specify whether to automatically release the host."
     AllowedValues:
       - true
       - false
