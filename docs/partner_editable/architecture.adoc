@@ -8,7 +8,7 @@ AWS Cloud.
 
 [#architecture1]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/architecture_diagram.png[Architecture]
+image::../images/dedicated-hosts-architecture-diagram.png[Architecture]
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
@@ -21,48 +21,8 @@ internet access for resources in the private subnets.*
 ** An optional Remote Desktop Gateway in an Auto Scaling group to allow inbound Remote Desktop Protocol
 (RDP) access to EC2 instances in public and private subnets.*
 * In the private subnets:
-** An optional Auto Scaling group of dedicated host instances.
+** An optional Auto Scaling group of Dedicated Host instances. The instances host your Microsoft-licensed products (such as Windows Server and SQL Server) and are combined into a single host resource group that you manage as a single entity. 
 // Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram. End each bullet with a period.
-* An AWS License Manager license configuration associated with Host Resource Group.
-* An AWS License Manager & Host Resource Group associated with the Auto Scaling group in the private subnets.
+* AWS License Manager for tracking and managing licenses and their associated AMIs in a host resource group.
 
 [.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
-
-
-=== Advantages
-
-* Benefit from the efficiencies of the AWS Cloud while utilizing existing investments in on-premises
-software
-* Extend the lifecycle of prior software versions
-* Import your existing Windows images to the AWS Cloud
-* Easily track licenses using AWS License Manager
-* Enforce licensing rules, stay compliant and control overages
-* Centrally report usage and discover installed software
-
-=== Use cases
-
-==== Eligible software 
-
-You can leverage a variety of existing software licenses on AWS using Amazon EC2 Dedicated hosts.
-
-Example include: 
-
-*  Microsoft Windows Server
-*  Microsoft SQL Server
-*  Microsoft Remote Desktop Services
-*  Microsoft Exchange Server 
-*  Microsoft SharePoint Server 
-
-==== BYOL Windows for Eligible Software
-
-Import your own VM Images using VM Import/Export or host based replication software to create Amazon Machine Image ( AMI)
-
-image::../images/BYOL.png[Architecture]
-
-==== Windows License Included for Eligible Software
-
-You can also run license included Windows Server instances on EC2 Dedicated Hosts, which enables you to use fully compliant Windows Server software licenses from AWS with a pay-as-you-go model. This helps in scenarios where you have eligible software licenses to use on Dedicated Hosts but do not have accompanying Windows Server licenses to run the eligible software to Dedicated Host environment. 
-
-You can use the Windows Server AMIs via the AWS Management Console, APIs, and CLI
-
-image::../images/LicenseIncluded.png[Architecture]
