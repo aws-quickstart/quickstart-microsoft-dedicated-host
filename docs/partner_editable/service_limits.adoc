@@ -10,5 +10,5 @@
 |Auto Scaling groups |2
 |Application Load Balancers |1
 |EC2 instances |2
-|EC2 Dedicated hosts |2
+|EC2 Dedicated Hosts |2
 |===
