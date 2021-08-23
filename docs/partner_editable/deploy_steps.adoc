@@ -28,11 +28,11 @@ Each deployment takes about {deployment_time} to complete.
 +
 [cols="1,1"]
 |===
-^|http://qs_launch_permalink[Deploy {partner-product-short-name} into a new VPC on AWS^]
-^|http://qs_template_permalink[View template^]
+^|https://fwd.aws/6qNJA?[Deploy {partner-product-short-name} into a new VPC on AWS^]
+^|https://fwd.aws/9d5n5?[View template^]
 
-^|http://qs_launch_permalink[Deploy {partner-product-short-name} into an existing VPC on AWS^]
-^|http://qs_template_permalink[View template^]
+^|https://fwd.aws/kxvMz?[Deploy {partner-product-short-name} into an existing VPC on AWS^]
+^|https://fwd.aws/DKYR9?[View template^]
 |===
 +
 . Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where you build the network infrastructure. The template is launched in the {default_deployment_region} Region by default. For other choices, see link:#_supported_regions[Supported Regions] earlier in this guide.
