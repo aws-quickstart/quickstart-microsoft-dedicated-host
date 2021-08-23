@@ -13,7 +13,7 @@ Powered by the AWS Nitro System, {partner-product-short-name} support multiple i
 
 Support for multiple instance types on the same Dedicated Host is available for the following instance families: c5, m5, r5, c5n, r5n, and m5n.
 
-Instance families that come with Instant Store (local NVme) support only a single instance size on the same Dedicated Host. If using the r5d instance family, pick a single instance size during allocation.
+Instance families that come with Instant Store (local NVme) support only a single instance size on the same Dedicated Host. If using the r5d instance family, choose a single instance size during allocation.
 
 The following table shows instance capacity and size for r5d. For example, the r5d.2xlarge instance type provides a capacity of a 12-instance capacity on the host. 
 
@@ -24,14 +24,14 @@ The following table shows instance capacity and size for r5d. For example, the r
 |r5 |2| 48 | 48| 24 | 12 | 6 | 2|2 |1
 |=======
 
-For more inforamtion, see https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/[Amazon EC2 Dedicated Hosts Configuration].
+For more information, see https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/[Amazon EC2 Dedicated Hosts Configuration].
 
 
 === Maintain license count
 
 The Quick Start uses the *LicenseCount* parameter to configure the optional License Manager *License Count* parameter. This value represents the total number of licenses managed by the configuration rule.
 
-License Manager can track license counts by vCPU or Core. The Quick Start *LicenseType* parameter selects this preference during deployment.
+License Manager can track license counts by core or vCPU. The Quick Start *LicenseType* parameter selects this preference during deployment.
 
 To learn more about License Manager parameters and rules, see https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html[License configuration parameters and rules].
 
