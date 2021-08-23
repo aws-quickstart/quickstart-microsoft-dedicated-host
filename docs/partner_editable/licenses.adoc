@@ -28,7 +28,3 @@ Use the AMI for Windows Server with license costs included. When using AWS-provi
 Run Windows Server instances on {partner-product-short-name} and use existing compliant Windows Server software licenses from AWS with a pay-as-you-go model. This helps in scenarios where you have eligible software licenses to use on {partner-product-short-name} but do not have accompanying Windows Server licenses to run the eligible software to the {partner-product-short-name} environment. 
 
 You can use the Windows Server AMIs via the AWS Management Console, APIs, and the command line interface (CLI). 
-
-
-
-
