@@ -24,8 +24,10 @@ software
 
 You can use a variety of existing software licenses on AWS using {partner-product-short-name}, for example:
 
-*  Microsoft Windows Server 2008, 2008 R2, 2012, or 2016
+*  Microsoft Windows Server 2008*, 2008 R2*, 2012, 2016, or 2019
 *  Microsoft SQL Server
 *  Microsoft Remote Desktop Services
 *  Microsoft Exchange Server 
 *  Microsoft SharePoint Server 
+
+*Windows Server 2008 and 2008 R2 are no longer supported. If using these versions, you must bring your own image. 
