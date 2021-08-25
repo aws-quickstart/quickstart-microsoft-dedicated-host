@@ -827,15 +827,19 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_overview">Overview</a>
 <ul class="sectlevel2">
 <li><a href="#_advantages">Advantages</a></li>
-<li><a href="#_amazon_ec2_dedicated_hosts_for_microsoft_infrastructure">Amazon EC2 Dedicated Hosts for Microsoft infrastructure</a></li>
 </ul>
 </li>
-<li><a href="#_amazon_ec2_dedicated_hosts_for_microsoft_on_aws">Amazon EC2 Dedicated Hosts for Microsoft on AWS</a></li>
+<li><a href="#_amazon_ec2_dedicated_hosts_for_microsoft_on_aws">Amazon EC2 Dedicated Hosts for Microsoft on AWS</a>
+<ul class="sectlevel3">
+<li><a href="#_aws_license_manager">AWS License Manager</a></li>
+<li><a href="#_host_resource_group">Host resource group</a></li>
+</ul>
+</li>
 <li><a href="#_aws_costs">AWS costs</a></li>
 <li><a href="#_software_licenses">Software licenses</a>
 <ul class="sectlevel3">
-<li><a href="#_bring_your_own_license_byol_ami">Bring your own license (BYOL) AMI</a></li>
-<li><a href="#_ami_for_windows_server_with_license_costs_included">AMI for Windows Server with license costs included</a></li>
+<li><a href="#_bring_your_own_license_byol_ami">Bring Your Own License (BYOL) AMI</a></li>
+<li><a href="#_ami_for_windows_server">AMI for Windows Server</a></li>
 </ul>
 </li>
 <li><a href="#_architecture">Architecture</a></li>
@@ -979,19 +983,22 @@ software</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_amazon_ec2_dedicated_hosts_for_microsoft_infrastructure">Amazon EC2 Dedicated Hosts for Microsoft infrastructure</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_amazon_ec2_dedicated_hosts_for_microsoft_on_aws">Amazon EC2 Dedicated Hosts for Microsoft on AWS</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Dedicated Hosts provide dedicated hardware to support existing software licenses. Using Dedicated Hosts, you can take advantage of the flexibility and cost effectiveness of using your own licenses, but with the resiliency, simplicity, and elasticity of AWS.</p>
+<p>Dedicated Hosts allow you to use your eligible software licenses from vendors such as Microsoft and Oracle on Amazon EC2, giving you the flexibility and cost using your own licenses, but with the resiliency, simplicity and elasticity of AWS. A Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirements.</p>
 </div>
 <div class="paragraph">
-<p>A Dedicated Host is a physical server fully dedicated for your use, so you can address corporate compliance requirements.</p>
+<p>To learn more, see <a href="https://aws.amazon.com/ec2/dedicated-hosts/">Amazon EC2 Dedicated Hosts</a>.</p>
 </div>
 <div class="sect3">
 <h4 id="_aws_license_manager">AWS License Manager</h4>
 <div class="paragraph">
-<p>Dedicated Hosts also runs with AWS License Manager, a service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing
-license usage, and you can configure your Dedicated Hosts management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on Dedicated Hosts, similar to how you would launch an EC2 instance with an AWS-provided license. To learn more, see <a href="https://aws.amazon.com/ec2/dedicated-hosts/">Amazon EC2 Dedicated Hosts</a>.</p>
+<p>Dedicated Hosts runs with License Manager, an AWS service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing
+license usage, and you can configure your Dedicated Hosts management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on Dedicated Hosts, similar to how you would launch an EC2 instance with an AWS-provided license.</p>
 </div>
 <div class="paragraph">
 <p>To learn more, see <a href="https://aws.amazon.com/license-manager/">AWS License Manager</a>.</p>
@@ -1034,15 +1041,6 @@ license usage, and you can configure your Dedicated Hosts management preferences
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_amazon_ec2_dedicated_hosts_for_microsoft_on_aws">Amazon EC2 Dedicated Hosts for Microsoft on AWS</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Dedicated Hosts allow you to use your existing per-socket or per-core Microsoft Windows licenses. When you bring your own licenses, you are responsible for managing them. This Quick Start automates setting up the <a href="https://console.aws.amazon.com/license-manager/home?region=us-east-1#">AWS License Manager</a> license configuration and associates it with a <a href="https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups">host resource group</a>. Next, an Auto Scaling group of Dedicated Hosts instances is created, and its hosts are assigned to the host resource group.</p>
-</div>
-</div>
-</div>
 <div class="sect1">
 <h2 id="_aws_costs">AWS costs</h2>
 <div class="sectionbody">
@@ -1080,7 +1078,7 @@ After you deploy the Quick Start, create <a href="https://docs.aws.amazon.com/aw
 <p>The Quick Start is configured to accept the following two licensing options.</p>
 </div>
 <div class="sect3">
-<h4 id="_bring_your_own_license_byol_ami">Bring your own license (BYOL) AMI</h4>
+<h4 id="_bring_your_own_license_byol_ami">Bring Your Own License (BYOL) AMI</h4>
 <div class="paragraph">
 <p>Use your volume licensing software and bring the license. When using your own Window Server license, you must either import your own VM images or use host-based replication software to create the AMI.</p>
 </div>
@@ -1111,7 +1109,7 @@ After you deploy the Quick Start, create <a href="https://docs.aws.amazon.com/aw
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ami_for_windows_server_with_license_costs_included">AMI for Windows Server with license costs included</h4>
+<h4 id="_ami_for_windows_server">AMI for Windows Server</h4>
 <div class="paragraph">
 <p>Use the AMI for Windows Server with the cost of the Windows license included. When using AWS-provided Windows Server licensing, you don&#8217;t need to import your own Windows images.</p>
 </div>
@@ -1577,10 +1575,10 @@ If you’re deploying Dedicated Hosts into an existing VPC, make sure that your 
 <div class="ulist">
 <ul>
 <li>
-<p><strong>GroupArn</strong> - the host resource group Amazon Resource Name (ARN)</p>
+<p><strong>GroupArn</strong>, the host resource group Amazon Resource Name (ARN)</p>
 </li>
 <li>
-<p><strong>LicenseArn</strong> the license configuration ARN</p>
+<p><strong>LicenseArn</strong>, the license configuration ARN</p>
 </li>
 </ul>
 </div>
@@ -2460,7 +2458,7 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-abbe56e78e54cebe0bf6f6331e36868258e77a93
+e124bb2b30445fc5e12819e6518b8bc8c5e4e6dc
 
 submodule config:
  4ee94d6b60ec455e5b452e8ad9841eb825704b70 docs/boilerplate (heads/main)
