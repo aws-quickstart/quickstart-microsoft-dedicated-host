@@ -30,4 +30,4 @@ You can use a variety of existing software licenses on AWS using {partner-produc
 *  Microsoft Exchange Server 
 *  Microsoft SharePoint Server 
 
-*Windows Server 2008 and 2008 R2 are no longer supported. If using these versions, you must bring your own image. 
+[.small]#* Windows Server 2008 and 2008 R2 are no longer supported. If using these versions, you must bring your own image.# 
