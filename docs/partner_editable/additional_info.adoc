@@ -24,8 +24,8 @@ License Manager supports the following deployment options to enforce license rul
 
 After you deploy the Quick Start, navigate to the *Outputs* section of the CloudFormation stack to record the following values:
 
-* *GroupArn* - the host resource group Amazon Resource Name (ARN)
-* *LicenseArn* the license configuration ARN
+* *GroupArn*, the host resource group Amazon Resource Name (ARN)
+* *LicenseArn*, the license configuration ARN
 
 image::../images/OutputARN.jpeg[additional_info]
 
