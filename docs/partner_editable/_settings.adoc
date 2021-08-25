@@ -1,6 +1,6 @@
 // Change the following attributes.
 :quickstart-project-name: quickstart-microsoft-dedicated-host
-:partner-product-name: Amazon EC2 Dedicated Hosts for Microsoft
+:partner-product-name: Amazon EC2 Dedicated Hosts for Microsoft Windows
 // For the following attribute, if you have no short name, enter the same name as partner-product-name.
 :partner-product-short-name: Dedicated Hosts
 // If there's no partner, comment partner-company-name.
