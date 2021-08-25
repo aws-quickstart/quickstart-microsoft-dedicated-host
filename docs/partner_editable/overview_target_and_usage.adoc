@@ -2,7 +2,7 @@
 // Identify your target audience and explain how/why they would use this Quick Start.
 //Avoid borrowing text from third-party websites (copying text from AWS service documentation is fine). Also, avoid marketing-speak, focusing instead on the technical aspect.
 
-This guide provides instructions for deploying an Amazon Elastic Compute Cloud (Amazon EC2) {partner-product-short-name} for Microsoft Quick Start reference architecture on the AWS Cloud. 
+This guide provides instructions for deploying an Amazon Elastic Compute Cloud (Amazon EC2) {partner-product-short-name} for Microsoft Windows Quick Start reference architecture on the AWS Cloud. 
 
 This Quick Start is for IT infrastructure architects, administrators, and DevOps professionals who are planning to implement a {partner-product-short-name} environment while bringing their own eligible Microsoft software licenses to AWS. 
 
