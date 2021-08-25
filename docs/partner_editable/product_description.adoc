@@ -2,14 +2,13 @@
 // Briefly describe the software. Use consistent and clear branding. 
 // Include the benefits of using the software on AWS, and provide details on usage scenarios.
 
-{partner-product-short-name} allow you to use your eligible software licenses from vendors such as Microsoft and Oracle on Amazon EC2, giving you the flexibility and cost using your own licenses, but with the resiliency, simplicity and elasticity of AWS. A Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirements.
+{partner-product-short-name} provide dedicated hardware to support existing software licenses, with an identifiable number of physical cores required for licensing some Microsoft products such as Windows Server. Using {partner-product-short-name}, you can take advantage of the flexibility and cost effectiveness of using your own licenses and licensing for maximum virtualization, but with the resiliency, simplicity, and elasticity of AWS.
 
 To learn more, see https://aws.amazon.com/ec2/dedicated-hosts/[Amazon EC2 Dedicated Hosts].
 
 ==== AWS License Manager
 
-{partner-product-short-name} runs with License Manager, an AWS service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing 
-license usage, and you can configure your {partner-product-short-name} management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on {partner-product-short-name}, similar to how you would launch an EC2 instance with an AWS-provided license. 
+License Manager can help you simplify the management of software licenses when using {partner-product-short-name}. License Manager allows you to specify your licensing terms for governing license usage, and you can configure your {partner-product-short-name} management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on {partner-product-short-name}, similar to how you would launch an EC2 instance with an AWS-provided license. 
 
 To learn more, see https://aws.amazon.com/license-manager/[AWS License Manager].
 
