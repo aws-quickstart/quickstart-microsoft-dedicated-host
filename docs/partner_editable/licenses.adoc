@@ -21,7 +21,7 @@ To learn more about billing codes and AMIs, see https://docs.aws.amazon.com/AWSE
 
 ==== AMI for Windows Server with license costs included
 
-Use the AMI for Windows Server with license costs included. When using AWS-provided Windows Server licensing, you don't need to import your own Windows images.
+Use the AMI for Windows Server with the cost of the Windows license included. When using AWS-provided Windows Server licensing, you don't need to import your own Windows images.
 
 Run Windows Server instances on {partner-product-short-name} and use existing compliant Windows Server software licenses from AWS with a pay-as-you-go model. This helps in scenarios where you have eligible software licenses to use on {partner-product-short-name} but do not have accompanying Windows Server licenses to run the eligible software to the {partner-product-short-name} environment. 
 
