@@ -6,7 +6,7 @@ This guide provides instructions for deploying an Amazon Elastic Compute Cloud (
 
 This Quick Start is for IT infrastructure architects, administrators, and DevOps professionals who are planning to implement a {partner-product-short-name} environment while bringing their own eligible Microsoft software licenses to AWS. 
 
-The Quick Start automates the process of setting up the https://console.aws.amazon.com/license-manager/home?region=us-east-1#[AWS License Manager] license configuration and associating it with a https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups[host resource group]. Next, an Auto Scaling group of EC2 {partner-product-short-name} instances is created, and its hosts are assigned to the host resource group. As you add new licenses to the License Manager configuration, the licenses are automatically applied to the new instances.  
+The Quick Start automates the process of setting up the https://console.aws.amazon.com/license-manager/home?region=us-east-1#[AWS License Manager] license configuration and associating it with a https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups[host resource group]. Next, it creates an Auto Scaling group of EC2 {partner-product-short-name} instances, which are then assigned to the host resource group. The host resource group lets you manage the instances as a single entity based on your License Manager configuration settings. As you add new licenses to the License Manager configuration, the licenses are automatically applied to the new instances.  
 
 === Advantages
 
