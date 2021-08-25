@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Microsoft dedicated hosts environment on the AWS Cloud</title>
+<title>Amazon EC2 Dedicated Hosts for Microsoft on the AWS Cloud</title>
 <style>
 
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -826,22 +826,23 @@ p.footer-text a{color:#d7d8d8}
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a>
 <ul class="sectlevel2">
-<li><a href="#_ec2_dedicated_infrastructure">EC2 Dedicated Infrastructure</a></li>
-</ul>
-</li>
-<li><a href="#_microsoft_dedicated_hosts_environment_on_aws">Microsoft dedicated hosts environment on AWS</a></li>
-<li><a href="#_aws_costs">AWS costs</a></li>
-<li><a href="#_software_licenses">Software licenses</a></li>
-<li><a href="#_architecture">Architecture</a>
-<ul class="sectlevel2">
 <li><a href="#_advantages">Advantages</a></li>
-<li><a href="#_use_cases">Use cases</a></li>
+<li><a href="#_amazon_ec2_dedicated_hosts_for_microsoft_infrastructure">Amazon EC2 Dedicated Hosts for Microsoft infrastructure</a></li>
 </ul>
 </li>
+<li><a href="#_amazon_ec2_dedicated_hosts_for_microsoft_on_aws">Amazon EC2 Dedicated Hosts for Microsoft on AWS</a></li>
+<li><a href="#_aws_costs">AWS costs</a></li>
+<li><a href="#_software_licenses">Software licenses</a>
+<ul class="sectlevel3">
+<li><a href="#_bring_your_own_license_byol_ami">Bring your own license (BYOL) AMI</a></li>
+<li><a href="#_ami_for_windows_server_with_license_costs_included">AMI for Windows Server with license costs included</a></li>
+</ul>
+</li>
+<li><a href="#_architecture">Architecture</a></li>
 <li><a href="#_planning_the_deployment">Planning the deployment</a>
 <ul class="sectlevel2">
 <li><a href="#_specialized_knowledge">Specialized knowledge</a></li>
-<li><a href="#_understanding_dedicated_hosts_configuration_option">Understanding Dedicated Hosts configuration option</a></li>
+<li><a href="#_dedicated_hosts_configuration_option">Dedicated Hosts configuration option</a></li>
 <li><a href="#_maintain_license_count">Maintain license count</a></li>
 <li><a href="#_license_affinity_to_host">License affinity to host</a></li>
 <li><a href="#_aws_account">AWS account</a></li>
@@ -857,10 +858,10 @@ p.footer-text a{color:#d7d8d8}
 </li>
 <li><a href="#_post_deployment_steps">Post-deployment steps</a>
 <ul class="sectlevel2">
-<li><a href="#_review_license_manager_rules">Review License Manager Rules</a></li>
-<li><a href="#_review_host_resource_group">Review Host Resource Group</a></li>
+<li><a href="#_review_license_manager_rules">Review License Manager rules</a></li>
+<li><a href="#_review_host_resource_group_configuration">Review host resource group configuration</a></li>
 <li><a href="#_provisioning">Provisioning</a></li>
-<li><a href="#_validate_license_manager_dashboard">Validate License Manager dashboard</a></li>
+<li><a href="#_validate_the_license_manager_dashboard">Validate the License Manager dashboard</a></li>
 <li><a href="#_track_usage_through_the_built_in_dashboard">Track usage through the built-in dashboard</a></li>
 <li><a href="#_run_windows_updates">Run Windows updates</a></li>
 </ul>
@@ -871,7 +872,6 @@ p.footer-text a{color:#d7d8d8}
 <ul class="sectlevel2">
 <li><a href="#_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</a></li>
 <li><a href="#_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</a></li>
-<li><a href="#_parameters_for_launching_into_an_existing_vpc_standalone">Parameters for launching into an existing VPC (standalone)</a></li>
 </ul>
 </li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
@@ -884,7 +884,7 @@ p.footer-text a{color:#d7d8d8}
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<h2 id="_microsoft_dedicated_hosts_environment_on_the_aws_cloud" class="discrete text-center">Microsoft dedicated hosts environment on the AWS Cloud</h2>
+<h2 id="_amazon_ec2_dedicated_hosts_for_microsoft_on_the_aws_cloud" class="discrete text-center">Amazon EC2 Dedicated Hosts for Microsoft on the AWS Cloud</h2>
 <h2 id="_quick_start_reference_deployment" class="discrete text-left text-center">Quick Start Reference Deployment</h2>
 <div class="imageblock text-center">
 <div class="content">
@@ -892,8 +892,8 @@ p.footer-text a{color:#d7d8d8}
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>July 2021</strong><br>
-<em>Sudhir Amin, Microsoft Workloads and Dave May, AWS Quick Start team</em></p>
+<p><strong>August 2021</strong><br>
+<em>Sudhir Amin, Microsoft Workloads and Dave May, AWS Integration &amp; Automation team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -917,64 +917,96 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide provides instructions for deploying the Microsoft Dedicated Hosts environment Quick Start reference architecture on the AWS Cloud.</p>
+<p>This guide provides instructions for deploying an Amazon Elastic Compute Cloud (Amazon EC2) Dedicated Hosts for Microsoft Quick Start reference architecture on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start is for IT infrastructure architects, administrators, and DevOps professionals who are planning to implement an EC2 Dedicated Host environment to bring their own eligible software licenses to AWS.</p>
+<p>This Quick Start is for IT infrastructure architects, administrators, and DevOps professionals who are planning to implement a Dedicated Hosts environment while bringing their own eligible Microsoft software licenses to AWS.</p>
+</div>
+<div class="paragraph">
+<p>The Quick Start automates the process of setting up the <a href="https://console.aws.amazon.com/license-manager/home?region=us-east-1#">AWS License Manager</a> license configuration and associating it with a <a href="https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups">host resource group</a>. Next, it creates an Auto Scaling group of EC2 Dedicated Hosts instances, which are then assigned to the host resource group. The host resource group lets you manage the instances as a single entity based on your License Manager configuration settings. As you add new licenses to the License Manager configuration, the licenses are automatically applied to the new instances.</p>
 </div>
 <div class="sect2">
-<h3 id="_ec2_dedicated_infrastructure">EC2 Dedicated Infrastructure</h3>
+<h3 id="_advantages">Advantages</h3>
 <div class="paragraph">
-<p>EC2 Dedicated Hosts provides dedicated hardware to support existing software licenses. Amazon EC2 Dedicated Hosts allow you to use your eligible software licenses, such as Microsoft Windows Server or Microsoft SQL Server, the flexibility and cost effectiveness of using your own licenses, but with the resiliency, simplicity and elasticity of AWS.</p>
-</div>
-<div class="paragraph">
-<p>An Amazon EC2 Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirements.</p>
-</div>
-<div class="paragraph">
-<p>Amazon EC2 Dedicated Hosts is also integrated with AWS License Manager, a service which helps you manage your software licenses,
-including Microsoft Windows Server and Microsoft SQL Server licenses. In License Manager, you can specify your licensing terms for governing
-license usage, as well as your Dedicated Host management preferences for host allocation and host capacity utilization. Once set up, AWS takes care
-of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on Dedicated Hosts just like you would
-launch an EC2 instance with AWS provided licenses. To learn more , please visit <a href="https://aws.amazon.com/ec2/dedicated-hosts/" class="bare">https://aws.amazon.com/ec2/dedicated-hosts/</a></p>
-</div>
-<div class="sect3">
-<h4 id="_license_manager">License Manager</h4>
-<div class="paragraph">
-<p>AWS License Manager makes it easier to manage your software licenses from vendors such as Microsoft, SAP, Oracle, and IBM, across AWS and on-premises environments. This gives you better control and visibility of your licenses, allowing you to limit licensing overages and reduce the risk of non-compliance and misreporting. License Manager provides:</p>
+<p>When deploying this Quick Start, you can:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Visibility of sockets and physical cores</p>
+<p>Benefit from the efficiencies of the AWS Cloud while using existing investments in on-premises
+software</p>
 </li>
 <li>
-<p>Affinity</p>
+<p>Extend the lifecycle of prior software versions</p>
 </li>
 <li>
-<p>Instance placement controls</p>
+<p>Import your existing Windows images to the AWS Cloud</p>
 </li>
 <li>
-<p>Multiple instance size support</p>
+<p>Easily track licenses using License Manager</p>
 </li>
 <li>
-<p>Integrated license management</p>
+<p>Enforce licensing rules, stay compliant, and control overages</p>
+</li>
+<li>
+<p>Centrally report usage and discover installed software</p>
 </li>
 </ul>
 </div>
+<div class="sect3">
+<h4 id="_eligible_software">Eligible software</h4>
 <div class="paragraph">
-<p>To learn more, please visit <a href="https://aws.amazon.com/license-manager/" class="bare">https://aws.amazon.com/license-manager/</a></p>
+<p>You can use a variety of existing software licenses on AWS using Dedicated Hosts, for example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Microsoft Windows Server 2008, 2008 R2, 2012, or 2016</p>
+</li>
+<li>
+<p>Microsoft SQL Server</p>
+</li>
+<li>
+<p>Microsoft Remote Desktop Services</p>
+</li>
+<li>
+<p>Microsoft Exchange Server</p>
+</li>
+<li>
+<p>Microsoft SharePoint Server</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_amazon_ec2_dedicated_hosts_for_microsoft_infrastructure">Amazon EC2 Dedicated Hosts for Microsoft infrastructure</h3>
+<div class="paragraph">
+<p>Dedicated Hosts provide dedicated hardware to support existing software licenses. Using Dedicated Hosts, you can take advantage of the flexibility and cost effectiveness of using your own licenses, but with the resiliency, simplicity, and elasticity of AWS.</p>
+</div>
+<div class="paragraph">
+<p>A Dedicated Host is a physical server fully dedicated for your use, so you can address corporate compliance requirements.</p>
+</div>
+<div class="sect3">
+<h4 id="_aws_license_manager">AWS License Manager</h4>
+<div class="paragraph">
+<p>Dedicated Hosts also runs with AWS License Manager, a service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing
+license usage, and you can configure your Dedicated Hosts management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on Dedicated Hosts, similar to how you would launch an EC2 instance with an AWS-provided license. To learn more, see <a href="https://aws.amazon.com/ec2/dedicated-hosts/">Amazon EC2 Dedicated Hosts</a>.</p>
+</div>
+<div class="paragraph">
+<p>To learn more, see <a href="https://aws.amazon.com/license-manager/">AWS License Manager</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_host_resource_group">Host Resource Group</h4>
+<h4 id="_host_resource_group">Host resource group</h4>
 <div class="paragraph">
-<p>A host resource group is a collection of Dedicated Hosts that you can manage as a single entity. As you launch instances, License Manager allocates the hosts and launches instances on them based on the settings that you configured. You can add existing Dedicated Hosts to a host resource group and take advantage of automated host management through License Manager.</p>
+<p>A host resource group is a collection of Dedicated Hosts that you can manage as a single entity. As you launch instances, License Manager allocates the hosts and launches instances on them based on your configuration settings. You can add existing Dedicated Hosts to a host resource group and take advantage of automated host management through License Manager.</p>
 </div>
 <div class="paragraph">
-<p>You can use host resource groups to separate hosts by purpose; for example, development test hosts versus production, organizational unit, or license constraint. After you add a Dedicated Host to a host resource group, you cannot launch instances directly on the Dedicated Host, you must launch them using the host resource group.</p>
+<p>You can use host resource groups to separate hosts by purpose (for example, development test hosts versus production, organizational unit, or license constraints). After you add a Dedicated Host to a host resource group, you cannot launch instances directly on the Dedicated Host. Instead, you must launch them using the host resource group.</p>
 </div>
 <div class="paragraph">
-<p>The Quick Start will present you with parameters to specify your preference for host resource groups. These parameters will then be used to automate the following:</p>
+<p>The Quick Start provides parameters for the host resource group. These parameters automate the following:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -985,7 +1017,7 @@ launch an EC2 instance with AWS provided licenses. To learn more , please visit 
 <p>Instance placement</p>
 </li>
 <li>
-<p>Allowed instance family to create a collection of dedicated hosts as per your license limit</p>
+<p>Allowed instance family to create a collection of Dedicated Hosts per your license limit</p>
 </li>
 <li>
 <p>Host release</p>
@@ -996,55 +1028,18 @@ launch an EC2 instance with AWS provided licenses. To learn more , please visit 
 </ul>
 </div>
 <div class="paragraph">
-<p>To learn more about host resource groups, please visit
-<a href="https://docs.aws.amazon.com/license-manager/latest/userguide/host-resource-groups.html" class="bare">https://docs.aws.amazon.com/license-manager/latest/userguide/host-resource-groups.html</a></p>
+<p>To learn more about host resource groups, see
+<a href="https://docs.aws.amazon.com/license-manager/latest/userguide/host-resource-groups.html">Host resource groups in AWS License Manager</a>.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_byol_ami">BYOL AMI</h4>
-<div class="paragraph">
-<p>There are many Amazon Machine Images (AMIs) to choose from when launching your instances, and they support a variety of operating system platforms and features. To understand how the AMI you choose when launching your instance affects the bottom line on your AWS bill, you can research the associated operating system platform and billing information</p>
-</div>
-<div class="paragraph">
-<p>BYOL (Bring your own License) AMIs are sourced from the customer environment using a migration tool such as CloudEndure or VMImport/Export. BYOL AMIs carry billing code RunInstances:0800</p>
-</div>
-<div class="paragraph">
-<p>To learn more about creating a BYOL AMI, please visit <a href="https://aws.amazon.com/blogs/modernizing-with-aws/how-to-create-windows-server-bring-your-own-license-amis-from-on-premises-with-vm-import-export/" class="bare">https://aws.amazon.com/blogs/modernizing-with-aws/how-to-create-windows-server-bring-your-own-license-amis-from-on-premises-with-vm-import-export/</a></p>
-</div>
-<div class="paragraph">
-<p>The following table lists some of the platform details and usage operation values that can be displayed on the Instances or AMIs pages in the Amazon EC2 console, or in the response that is returned by the describe-images command. To learn more about billing codes &amp; AMIs, please visit <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html" class="bare">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html</a>.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Platform details</th>
-<th class="tableblock halign-left valign-top">Usage operation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Windows License Included</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RunInstances:0002</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Windows BYOL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RunInstances:0800</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_microsoft_dedicated_hosts_environment_on_aws">Microsoft dedicated hosts environment on AWS</h2>
+<h2 id="_amazon_ec2_dedicated_hosts_for_microsoft_on_aws">Amazon EC2 Dedicated Hosts for Microsoft on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Dedicated Hosts allow you to use your existing per-socket or per-core Microsoft Windows licenses. When you bring your own license, you are responsible for managing your own licenses. This Quick Start automates the setup of <a href="https://console.aws.amazon.com/license-manager/home?region=us-east-1#">AWS License Manager</a> license configuration and associates it with a <a href="https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups">host resource group</a>. An auto-scaling group of Dedicated Host EC2 instances is then created and its hosts are assigned to the host resource group.</p>
+<p>Dedicated Hosts allow you to use your existing per-socket or per-core Microsoft Windows licenses. When you bring your own licenses, you are responsible for managing them. This Quick Start automates setting up the <a href="https://console.aws.amazon.com/license-manager/home?region=us-east-1#">AWS License Manager</a> license configuration and associates it with a <a href="https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups">host resource group</a>. Next, an Auto Scaling group of Dedicated Hosts instances is created, and its hosts are assigned to the host resource group.</p>
 </div>
 </div>
 </div>
@@ -1079,20 +1074,53 @@ After you deploy the Quick Start, create <a href="https://docs.aws.amazon.com/aw
 <h2 id="_software_licenses">Software licenses</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The AWS CloudFormation template for this Quick Start includes configuration parameters that you can customize. Some of these settings, such as instance type or opting to use the Amazon-provided License Included AMI for Windows Server, will affect the cost of deployment. See the pricing pages for each AWS service you will be using for cost estimates.</p>
+<p>The use of Microsoft software is subject to Microsoft&#8217;s terms. You are responsible for complying with Microsoft licensing. This document does not provide legal advice. If you have questions about your licensing or rights to Microsoft software, consult your legal team, Microsoft, or your Microsoft reseller. For more information, see <a href="https://www.microsoft.com/en-us/licensing/product-licensing/products.aspx">Microsoft Product Terms</a>.</p>
 </div>
 <div class="paragraph">
-<p>The Quick Start is configured to accept two licensing options for Windows Server DataCenter edition. You can:</p>
+<p>The Quick Start is configured to accept the following two licensing options.</p>
+</div>
+<div class="sect3">
+<h4 id="_bring_your_own_license_byol_ami">Bring your own license (BYOL) AMI</h4>
+<div class="paragraph">
+<p>Use your volume licensing software and bring the license. When using your own Window Server license, you must either import your own VM images or use host-based replication software to create the AMI.</p>
+</div>
+<div class="paragraph">
+<p>Several Amazon Machine Images (AMIs) that support a variety of operating system platforms and features are available to choose when launching your instances. To understand how the AMI affects your AWS bill, you can research the associated operating system platform and billing information.</p>
+</div>
+<div class="paragraph">
+<p>License Manager helps you with license reporting, governance, and managing true-ups and audits. However, Microsoft licensing requires you to bring your own media, which involves managing patching, updates, and golden AMI creation.</p>
+</div>
+<div class="paragraph">
+<p>To learn more about creating a BYOL AMI, see <a href="https://aws.amazon.com/blogs/modernizing-with-aws/how-to-create-windows-server-bring-your-own-license-amis-from-on-premises-with-vm-import-export/">How to create Windows Server Bring-Your-Own-License AMIs from on-premises with VM Import/Export</a>.</p>
+</div>
+<div class="paragraph">
+<p>The following platform details and usage operation values can be displayed on the instances or AMI pages in the Amazon EC2 console, or in the response that is returned by the describe-images command.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Use your volume licensing software and mobilize the license. When using your own Window Server license, you need to import your own images into Amazon Machine Image (AMI).</p>
+<p>Platform: Windows License Included, Usage operation: RunInstances:0002</p>
 </li>
 <li>
-<p>Use the Amazon Machine Image (AMI) for Windows Server with license costs included. When using AWS-provided Windows Server licensing, you don&#8217;t need to import your own Windows Images.</p>
+<p>Platform: Windows BYOL, Usage operation: RunInstances:0800</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>To learn more about billing codes and AMIs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html">AMI billing information fields</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ami_for_windows_server_with_license_costs_included">AMI for Windows Server with license costs included</h4>
+<div class="paragraph">
+<p>Use the AMI for Windows Server with the cost of the Windows license included. When using AWS-provided Windows Server licensing, you don&#8217;t need to import your own Windows images.</p>
+</div>
+<div class="paragraph">
+<p>Run Windows Server instances on Dedicated Hosts and use existing compliant Windows Server software licenses from AWS with a pay-as-you-go model. This helps in scenarios where you have eligible software licenses to use on Dedicated Hosts but do not have accompanying Windows Server licenses to run the eligible software to the Dedicated Hosts environment.</p>
+</div>
+<div class="paragraph">
+<p>You can use the Windows Server AMIs via the AWS Management Console, APIs, and the command line interface (CLI).</p>
+</div>
 </div>
 </div>
 </div>
@@ -1101,14 +1129,14 @@ After you deploy the Quick Start, create <a href="https://docs.aws.amazon.com/aw
 <div class="sectionbody">
 <div class="paragraph">
 <p>Deploying this Quick Start for a new virtual private cloud (VPC) with
-default parameters builds the following Dedicated hosts environment environment in the
+default parameters builds the following Dedicated Hosts environment in the
 AWS Cloud.</p>
 </div>
 <div id="architecture1" class="imageblock">
 <div class="content">
-<img src="images/architecture_diagram.png" alt="Architecture">
+<img src="images/dedicated-hosts-architecture-diagram.png" alt="Architecture">
 </div>
-<div class="title">Figure 1. Quick Start architecture for Dedicated hosts environment on AWS</div>
+<div class="title">Figure 1. Quick Start architecture for Dedicated Hosts on AWS</div>
 </div>
 <div class="paragraph">
 <p>As shown in <a href="#architecture1">Figure 1</a>, the Quick Start sets up the following:</p>
@@ -1142,106 +1170,18 @@ internet access for resources in the private subnets.*</p>
 <div class="ulist">
 <ul>
 <li>
-<p>An optional Auto Scaling group of dedicated host instances.</p>
+<p>An optional Auto Scaling group of Dedicated Host instances. The instances host your Microsoft-licensed products (such as Windows Server and SQL Server) and are combined into a single host resource group that you manage as a single entity.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>An AWS License Manager license configuration associated with Host Resource Group.</p>
-</li>
-<li>
-<p>An AWS License Manager &amp; Host Resource Group associated with the Auto Scaling group in the private subnets.</p>
+<p>AWS License Manager for tracking and managing licenses and their associated AMIs in a host resource group.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p><span class="small">* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.</span></p>
-</div>
-<div class="sect2">
-<h3 id="_advantages">Advantages</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Benefit from the efficiencies of the AWS Cloud while utilizing existing investments in on-premises
-software</p>
-</li>
-<li>
-<p>Extend the lifecycle of prior software versions</p>
-</li>
-<li>
-<p>Import your existing Windows images to the AWS Cloud</p>
-</li>
-<li>
-<p>Easily track licenses using AWS License Manager</p>
-</li>
-<li>
-<p>Enforce licensing rules, stay compliant and control overages</p>
-</li>
-<li>
-<p>Centrally report usage and discover installed software</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_use_cases">Use cases</h3>
-<div class="sect3">
-<h4 id="_eligible_software">Eligible software</h4>
-<div class="paragraph">
-<p>You can leverage a variety of existing software licenses on AWS using Amazon EC2 Dedicated hosts.</p>
-</div>
-<div class="paragraph">
-<p>Example include:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Microsoft Windows Server</p>
-</li>
-<li>
-<p>Microsoft SQL Server</p>
-</li>
-<li>
-<p>Microsoft Remote Desktop Services</p>
-</li>
-<li>
-<p>Microsoft Exchange Server</p>
-</li>
-<li>
-<p>Microsoft SharePoint Server</p>
-</li>
-<li>
-<p>All other software covered under the Microsoft product terms</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_byol_windows_for_eligible_software">BYOL Windows for Eligible Software</h4>
-<div class="paragraph">
-<p>Import your own VM Images using VM Import/Export or host based replication software to create Amazon Machine Image ( AMI)</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/BYOL.png" alt="Architecture">
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_windows_license_included_for_eligible_software">Windows License Included for Eligible Software</h4>
-<div class="paragraph">
-<p>You can also run license included Windows Server instances on EC2 Dedicated Hosts, which enables you to use fully compliant Windows Server software licenses from AWS with a pay-as-you-go model. This helps in scenarios where you have eligible software licenses to use on Dedicated Hosts but do not have accompanying Windows Server licenses to run the eligible software to Dedicated Host environment.</p>
-</div>
-<div class="paragraph">
-<p>You can use the Windows Server AMIs via the AWS Management Console, APIs, and CLI</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/LicenseIncluded.png" alt="Architecture">
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -1261,28 +1201,21 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_understanding_dedicated_hosts_configuration_option">Understanding Dedicated Hosts configuration option</h3>
+<h3 id="_dedicated_hosts_configuration_option">Dedicated Hosts configuration option</h3>
 <div class="paragraph">
-<p>When planning your dedicated host environment, it is important to understand dedicated host configuration to know the instance capacity per host and supported instance size on the host. This varies between different instance families you can choose to build your dedicated host environment.</p>
-</div>
-<div class="paragraph">
-<p>Dedicated Hosts powered by the Amazon Web Services Nitro System support multiple instance types within the same instance family on a host.
-For example, when you allocate an R5 Dedicated Host, you can use a host with 2 sockets and 48 physical cores to run different R5 instance types
-such as r5.2xlarge, r5.4xlarge, and others on the same host. You can run any number of instances up to the core capacity associated with the host.</p>
+<p>When planning your Dedicated Hosts configuration, identify the instance capacity per host and supported instance size on the host. These values vary between different instance families that are available when building your Dedicated Hosts environment.</p>
 </div>
 <div class="paragraph">
-<p>Support for multiple instance types on the same Dedicated Host is available for the following instance families:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>c5, m5, r5, c5n, r5n, and m5n</pre>
-</div>
+<p>Powered by the AWS Nitro System, Dedicated Hosts support multiple instance types within the same instance family on a host. For example, when you allocate an R5 Dedicated Host, you can use a host with two sockets and 48 physical cores to run different R5 instance types such as r5.2xlarge, r5.4xlarge, and others on the same host. You can run any number of instances up to the core capacity that is associated with the host.</p>
 </div>
 <div class="paragraph">
-<p>Instance families that come with Instant Store (local NVme) support only a single instance size on the same Dedicated Host. With r5d instance family, you need to pick a single instance size during allocation.</p>
+<p>Support for multiple instance types on the same Dedicated Host is available for the following instance families: c5, m5, r5, c5n, r5n, and m5n.</p>
 </div>
 <div class="paragraph">
-<p>The table below shows instance capacity and size for r5d. As per the table below, choosing r5d.2xlarge will provide a capacity of 12 Instance capacity on the host.</p>
+<p>Instance families that come with Instant Store (local NVme) support only a single instance size on the same Dedicated Host. If using the r5d instance family, choose a single instance size during allocation.</p>
+</div>
+<div class="paragraph">
+<p>The following table shows instance capacity and size for r5d. For example, the r5d.2xlarge instance type provides a capacity of a 12-instance capacity on the host.</p>
 </div>
 <table class="tableblock frame-all grid-all" style="width: 25%;">
 <colgroup>
@@ -1299,9 +1232,9 @@ such as r5.2xlarge, r5.4xlarge, and others on the same host. You can run any num
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Instance Family</th>
+<th class="tableblock halign-left valign-top">Instance family</th>
 <th class="tableblock halign-left valign-top">Sockets</th>
-<th class="tableblock halign-left valign-top">Physical Cores</th>
+<th class="tableblock halign-left valign-top">Physical cores</th>
 <th class="tableblock halign-left valign-top">large</th>
 <th class="tableblock halign-left valign-top">xlarge</th>
 <th class="tableblock halign-left valign-top">2xlarge</th>
@@ -1339,32 +1272,31 @@ such as r5.2xlarge, r5.4xlarge, and others on the same host. You can run any num
 </tbody>
 </table>
 <div class="paragraph">
-<p>To learn more about dedicated host configuration, please refer to the AWS Documentation.
-<a href="https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/" class="bare">https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/</a></p>
+<p>For more information, see <a href="https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/">Amazon EC2 Dedicated Hosts Configuration</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_maintain_license_count">Maintain license count</h3>
 <div class="paragraph">
-<p>The Quick Start will use parameter <strong>LicenseCount</strong> to configure the optional License Manager parameter <strong>License Count</strong>.
-This represents the total number of licenses managed by the configuration rule.</p>
+<p>The Quick Start uses the <strong>LicenseCount</strong> parameter to configure the optional License Manager <strong>License Count</strong> parameter. This value represents the total number of licenses managed by the configuration rule.</p>
 </div>
 <div class="paragraph">
-<p>License Manager can track license counts by vCPU or Core. The Quick Start parameter <strong>LicenseType</strong> selects this preference during deployment.</p>
+<p>License Manager can track license counts by core or vCPU. The Quick Start <strong>LicenseType</strong> parameter selects this preference during deployment.</p>
 </div>
 <div class="paragraph">
-<p>To learn more about License Manager parameters and rules, please visit <a href="https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html" class="bare">https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html</a>.</p>
+<p>To learn more about License Manager parameters and rules, see <a href="https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html">License configuration parameters and rules</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_license_affinity_to_host">License affinity to host</h3>
 <div class="paragraph">
-<p>The Quick Start is configured to follow <strong>the 90 days clause</strong>, wherein a Microsoft license cannot be reassigned within 90 days. This ability to enforce assignment rules further simplifies the Windows Server and SQL Server BYOL experience on AWS. Within License Manager configuration, the Quick Start will set <strong>License affinity to host (in days)</strong> to <strong>90 days</strong>.</p>
+<p>The Quick Start is configured to follow the 90 days clause, which states that a Microsoft license cannot be reassigned within 90 days. This ability to enforce assignment rules further simplifies the Windows Server and SQL Server BYOL experience on AWS.</p>
 </div>
-<div class="literalblock">
-<div class="content">
-<pre>License affinity to host (in days) — Restricts license usage to the host for the specified number of days. The range is 1 to 180. The counting type must be Cores or Sockets. After the affinity period elapses, the license will be available for reuse within 24 hours.</pre>
+<div class="paragraph">
+<p>Within License Manager configuration, the Quick Start sets the <strong>License affinity to host (in days)</strong> rule to <strong>90 days</strong>. This rule restricts license usage to the host for 90 days. After the affinity period is over, you can reuse the license within 24 hours.</p>
 </div>
+<div class="paragraph">
+<p>To learn more, see <a href="https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html">License configuration parameters and rules</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1427,16 +1359,19 @@ This represents the total number of licenses managed by the configuration rule.<
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EC2 Dedicated hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EC2 Dedicated Hosts</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_supported_regions">Supported Regions</h4>
+<h4 id="_supported_aws_regions">Supported AWS Regions</h4>
 <div class="paragraph">
-<p>This Quick Start is supported in all AWS Regions.</p>
+<p>For any Quick Start to work in a Region other than its default Region, all the services it deploys must be supported in that Region. You can launch a Quick Start in any Region and see if it works. If you get an error such as “Unrecognized resource type,” the Quick Start is not supported in that Region.</p>
+</div>
+<div class="paragraph">
+<p>For an up-to-date list of AWS Regions and the AWS services they support, see <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/" target="_blank" rel="noopener">AWS Regional Services</a>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1452,9 +1387,9 @@ Certain Regions are available on an opt-in basis. For more information, see <a h
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ec2_key_pairs">EC2 key pairs</h4>
+<h4 id="_amazon_ec2_key_pairs">Amazon EC2 key pairs</h4>
 <div class="paragraph">
-<p>Make sure that at least one <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">Amazon EC2 key pair</a> exists in your AWS account in the Region where you plan to deploy the Quick Start. Make note of the key pair name. You need it during deployment. To create a key pair, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">Amazon EC2 key pairs and Linux instances</a>.</p>
+<p>Ensure that at least one Amazon EC2 key pair exists in your AWS account in the Region where you plan to deploy the Quick Start. Note the key-pair name because you will use it during deployment. To create a key pair, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">Amazon EC2 key pairs and Linux instances</a>.</p>
 </div>
 <div class="paragraph">
 <p>For testing or proof-of-concept purposes, we recommend creating a new key pair instead of using one that’s already being used by a production instance.</p>
@@ -1470,12 +1405,10 @@ Certain Regions are available on an opt-in basis. For more information, see <a h
 <div class="sect2">
 <h3 id="_prepare_a_windows_ami">Prepare a Windows AMI</h3>
 <div class="paragraph">
-<p>Microsoft Windows AMIs provided by AWS include AWS-provided licenses. Since the purpose of this Quick Start is to allow Dedicated
-Host users to bring their own Windows licenses, you will need to create a Windows AMI. See <a href="https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html">the instructions for importing a VM image to your AWS account</a>.</p>
+<p>Microsoft Windows AMIs provided by AWS include AWS-provided licenses. Since the purpose of this Quick Start is to allow Dedicated Hosts users to bring their own Windows licenses, you must create a Windows AMI. For more information, see <a href="https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html">Importing a VM as an image using VM Import/Export</a>.</p>
 </div>
 <div class="paragraph">
-<p>If you are looking to combine AWS-provided licenses for Windows Server and run eligible application software such Microsoft SQL Server or SharePoint, you can bypass the above step and use an AWS provided License Include Windows Server AMI. Please read
-the <strong>Use Cases</strong> section of the deployment guide.</p>
+<p>If you are looking to combine AWS-provided licenses for Windows Server and run eligible application software such Microsoft SQL Server or SharePoint, you can bypass the preceding step and use an AWS-provided, license-included Windows Server AMI.</p>
 </div>
 <div class="sect3">
 <h4 id="_deployment_options">Deployment options</h4>
@@ -1485,15 +1418,15 @@ the <strong>Use Cases</strong> section of the deployment guide.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Deploy Dedicated hosts environment into a new VPC</strong>. This option builds a new AWS environment consisting of the VPC, subnets, NAT gateways, security groups, bastion hosts, and other infrastructure components. It then deploys Dedicated hosts environment into this new VPC.</p>
+<p><strong>Deploy Dedicated Hosts into a new VPC</strong>. This option builds a new AWS environment consisting of the VPC, subnets, NAT gateways, security groups, bastion hosts, and other infrastructure components. It then deploys Dedicated Hosts into this new VPC.</p>
 </li>
 <li>
-<p><strong>Deploy Dedicated hosts environment into an existing VPC</strong>. This option provisions Dedicated hosts environment in your existing AWS infrastructure.</p>
+<p><strong>Deploy Dedicated Hosts into an existing VPC</strong>. This option provisions Dedicated Hosts in your existing AWS infrastructure.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The Quick Start provides separate templates for these options. It also lets you configure Classless Inter-Domain Routing (CIDR) blocks, instance types, and Dedicated hosts environment settings, as discussed later in this guide.</p>
+<p>The Quick Start provides separate templates for these options. It also lets you configure Classless Inter-Domain Routing (CIDR) blocks, instance types, and Dedicated Hosts settings, as discussed later in this guide.</p>
 </div>
 </div>
 </div>
@@ -1524,7 +1457,7 @@ the <strong>Use Cases</strong> section of the deployment guide.</p>
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-If you’re deploying Dedicated hosts environment into an existing VPC, make sure that your VPC has two private subnets in different Availability Zones for the workload instances and that the subnets aren’t shared. This Quick Start doesn’t support <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html" target="_blank" rel="noopener">shared subnets</a>. These subnets require <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" target="_blank" rel="noopener">NAT gateways</a> in their route tables to allow the instances to download packages and software without exposing them to the internet. Also make sure that the domain name option in the DHCP options is configured as explained in <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html" target="_blank" rel="noopener">DHCP options sets</a>. You provide your VPC settings when you launch the Quick Start.
+If you’re deploying Dedicated Hosts into an existing VPC, make sure that your VPC has two private subnets in different Availability Zones for the workload instances and that the subnets aren’t shared. This Quick Start doesn’t support <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html" target="_blank" rel="noopener">shared subnets</a>. These subnets require <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" target="_blank" rel="noopener">NAT gateways</a> in their route tables to allow the instances to download packages and software without exposing them to the internet. Also make sure that the domain name option in the DHCP options is configured as explained in <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html" target="_blank" rel="noopener">DHCP options sets</a>. You provide your VPC settings when you launch the Quick Start.
 </td>
 </tr>
 </table>
@@ -1538,17 +1471,17 @@ If you’re deploying Dedicated hosts environment into an existing VPC, make sur
 <p>Sign in to your AWS account, and choose one of the following options to launch the AWS CloudFormation template. For help with choosing an option, see <a href="#_deployment_options">Deployment options</a> earlier in this guide.</p>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 75%;">
-<col style="width: 25%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy Dedicated hosts environment into a new VPC on AWS</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://fwd.aws/6qNJA?" target="_blank" rel="noopener">Deploy Dedicated Hosts into a new VPC on AWS</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://fwd.aws/9d5n5?" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy Dedicated hosts environment into an existing VPC on AWS</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://fwd.aws/kxvMz?" target="_blank" rel="noopener">Deploy Dedicated Hosts into an existing VPC on AWS</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://fwd.aws/DKYR9?" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -1563,7 +1496,7 @@ If you’re deploying Dedicated hosts environment into an existing VPC, make sur
 <p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
 </li>
 <li>
-<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you’re finished, choose <strong>Next</strong>.</p>
+<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you finish, choose <strong>Next</strong>.</p>
 </li>
 <li>
 <p>On the <strong>Review</strong> page, review and confirm the template settings. Under <strong>Capabilities</strong>, select the two check boxes to acknowledge that the template creates IAM resources and might require the ability to automatically expand macros.</p>
@@ -1572,7 +1505,7 @@ If you’re deploying Dedicated hosts environment into an existing VPC, make sur
 <p>Choose <strong>Create stack</strong> to deploy the stack.</p>
 </li>
 <li>
-<p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the Dedicated hosts environment deployment is ready.</p>
+<p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the Dedicated Hosts deployment is ready.</p>
 </li>
 <li>
 <p>To view the created resources, see the values displayed in the <strong>Outputs</strong> tab for the stack.</p>
@@ -1586,38 +1519,52 @@ If you’re deploying Dedicated hosts environment into an existing VPC, make sur
 <h2 id="_post_deployment_steps">Post-deployment steps</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_review_license_manager_rules">Review License Manager Rules</h3>
-<div class="paragraph">
-<p>To get started with License Manager, open the License Manager console at <a href="https://console.aws.amazon.com/license-manager/" class="bare">https://console.aws.amazon.com/license-manager/</a>.</p>
-</div>
-<div class="paragraph">
+<h3 id="_review_license_manager_rules">Review License Manager rules</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the License Manager console at <a href="https://console.aws.amazon.com/license-manager/" class="bare">https://console.aws.amazon.com/license-manager/</a>.</p>
+</li>
+<li>
 <p>In the left navigation pane, choose <strong>Customer managed licenses</strong>.</p>
+</li>
+<li>
+<p>Review the rules.</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_review_host_resource_group">Review Host Resource Group</h3>
-<div class="paragraph">
-<p>To review the host resource group configuration, open the License Manager console at <a href="https://console.aws.amazon.com/license-manager/" class="bare">https://console.aws.amazon.com/license-manager/</a>.</p>
-</div>
-<div class="paragraph">
+<h3 id="_review_host_resource_group_configuration">Review host resource group configuration</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the License Manager console at <a href="https://console.aws.amazon.com/license-manager/" class="bare">https://console.aws.amazon.com/license-manager/</a>.</p>
+</li>
+<li>
 <p>In the left navigation pane, choose <strong>Host resource groups</strong>.</p>
+</li>
+<li>
+<p>Review the configuration.</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_provisioning">Provisioning</h3>
 <div class="paragraph">
-<p>License Manager supports different deployment options to enforce license rules:</p>
+<p>License Manager supports the following deployment options to enforce license rules through provisioning:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Launch Template and AMI</p>
+<p>Auto Scaling group&#8217;s launch template and AMI</p>
 </li>
 <li>
 <p>CloudFormation</p>
 </li>
 <li>
-<p>AWS SDK&#8217;s and tools</p>
+<p>AWS SDKs and tools</p>
 </li>
 <li>
 <p>AWS Service Catalog</p>
@@ -1625,15 +1572,15 @@ If you’re deploying Dedicated hosts environment into an existing VPC, make sur
 </ul>
 </div>
 <div class="paragraph">
-<p>Once the Quick Start deployment completes, navigate to the output section of the CloudFormation stack to record the following:</p>
+<p>After you deploy the Quick Start, navigate to the <strong>Outputs</strong> section of the CloudFormation stack to record the following values:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>GroupArn - This is the host resource group ARN</p>
+<p><strong>GroupArn</strong> - the host resource group Amazon Resource Name (ARN)</p>
 </li>
 <li>
-<p>LicenseArn - This is license configuration ARN</p>
+<p><strong>LicenseArn</strong> the license configuration ARN</p>
 </li>
 </ul>
 </div>
@@ -1643,40 +1590,41 @@ If you’re deploying Dedicated hosts environment into an existing VPC, make sur
 </div>
 </div>
 <div class="paragraph">
-<p>In this deployment guide, we will show how to provision using Launch Template, AWS CLI, and CloudFormation.
-For other deployment methods, you may refer to AWS documentation. <a href="https://aws.amazon.com/blogs/mt/mechanisms-to-govern-license-usage-with-aws-license-manager/" class="bare">https://aws.amazon.com/blogs/mt/mechanisms-to-govern-license-usage-with-aws-license-manager/</a></p>
+<p>The following sections show you how to provision using the launch template, AWS CLI, and CloudFormation.
+For other deployment methods, see <a href="https://aws.amazon.com/blogs/mt/mechanisms-to-govern-license-usage-with-aws-license-manager/">Mechanisms to govern license usage with AWS License Manager</a>.</p>
 </div>
 <div class="sect3">
-<h4 id="_autoscaling">Autoscaling</h4>
+<h4 id="_auto_scaling">Auto Scaling</h4>
 <div class="paragraph">
-<p>The Quick Start will create a Launch Template and Auto Scaling Group using two private subnets.
-LaunchTemplateData is configured with</p>
+<p>The Quick Start creates an Auto Scaling group and associated launch template in two private subnets. Within the template, the <strong>LaunchTemplateData</strong> parameter is configured with these two properties. Replace the values with the values that you recorded from the <strong>Outputs</strong> section of the CloudFormation stack.</p>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>Placement:
   HostResourceGroupArn: &lt;Replace with host resource group ARN&gt;
 LicenseSpecifications:
-  - LicenseConfigurationArn: &lt;Replace with License Configuration ARN&gt;</pre>
+  - LicenseConfigurationArn: &lt;Replace with license configuration ARN&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Auto scaling is configured to take advantage of multiple Availability Zones represented by the private subnets used by the auto scaling group.
-Therefore, auto scaling should be carefully considered depending on the workload you plan to run on Dedicated Host infrastructure.</p>
+<p>The Auto Scaling group takes advantage of the multiple Availability Zones that are represented by the private subnets used by the Auto Scaling group. Therefore, take into account the Auto Scaling group, depending on the workload you plan to run on the Dedicated Hosts infrastructure.</p>
 </div>
 <div class="paragraph">
-<p>By default, the auto scaling value is set to 0. If, for example, you set the desired, min and max values to 2 during the deployment, you will launch two instances utilizing both Availability Zones. This mean 1 dedicated host will be allocated for you per Availability Zone.</p>
+<p>By default, the Auto Scaling value is set to 0. If, for example, you set the desired minimum and maximum values to 2 during the deployment, you will launch two instances that are used within both Availability Zones. This means that one Dedicated Host is allocated per Availability Zone.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_aws_cli">AWS CLI</h4>
+<div class="paragraph">
+<p>To deploy using AWS CLI, replace the placeholder values with those from the <strong>Outputs</strong> section of the CloudFormation stack:</p>
+</div>
 <div class="literalblock">
 <div class="content">
 <pre>aws ec2 run-instances \
 --instance-type c5.2xlarge \
 --image-id ami-0eXXXXXXXXXXXXef9  \
 --subnet-id subnet-0fdbxxxxxxxdcf \
---license-specifications &lt;License Configuration ARN&gt; \
+--license-specifications &lt;License configuration ARN&gt; \
 --placement HostResourceGroupArn= &lt;Host resource group ARN&gt;</pre>
 </div>
 </div>
@@ -1684,7 +1632,7 @@ Therefore, auto scaling should be carefully considered depending on the workload
 <div class="sect3">
 <h4 id="_cloudformation">CloudFormation</h4>
 <div class="paragraph">
-<p>To deploy using CloudFormation, ensure the resource properties include both HostResourceGroupArn &amp; LicenseSpecifications</p>
+<p>To deploy using CloudFormation, be sure that the resource properties include values for the <strong>HostResourceGroupArn</strong> and <strong>LicenseSpecifications</strong> options.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1721,9 +1669,9 @@ Volumes:
 </div>
 </div>
 <div class="sect2">
-<h3 id="_validate_license_manager_dashboard">Validate License Manager dashboard</h3>
+<h3 id="_validate_the_license_manager_dashboard">Validate the License Manager dashboard</h3>
 <div class="paragraph">
-<p>The Dashboard section of the AWS License Manager console provides graphs to track the license consumption associated with each license configuration. The dashboard also displays alerts resulting from license rule violations.</p>
+<p>The <strong>Dashboard</strong> section of the AWS License Manager console provides graphs to track the license consumption associated with each license configuration. The dashboard also displays alerts resulting from license rule violations.</p>
 </div>
 <div class="paragraph">
 <p>The following information is available in the graph for a license configuration:</p>
@@ -1753,34 +1701,46 @@ Volumes:
 </div>
 <div class="sect2">
 <h3 id="_track_usage_through_the_built_in_dashboard">Track usage through the built-in dashboard</h3>
-<div class="paragraph">
-<p>Open the License Manager console at <a href="https://console.aws.amazon.com/license-manager/" class="bare">https://console.aws.amazon.com/license-manager/</a>
-In the left navigation pane, choose Dashboard.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the License Manager console at <a href="https://console.aws.amazon.com/license-manager/" class="bare">https://console.aws.amazon.com/license-manager/</a>.</p>
+</li>
+<li>
+<p>In the left navigation pane, choose <strong>Dashboard</strong>.</p>
+</li>
+<li>
+<p>Locate the license usage data.</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_run_windows_updates">Run Windows updates</h3>
 <div class="paragraph">
-<p>If you deployed any Windows instances, in order to ensure the deployed servers' operating systems and installed applications have the latest Microsoft updates, run Windows Update on each server.</p>
+<p>If you deployed any Windows instances, confirm that each server&#8217;s operating system and installed applications have the latest Microsoft updates by running Windows Update.</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>Create an RDP session from the Remote Desktop Gateway server to BYOL Windows server.</p>
+<p>Create an RDP session from the Remote Desktop Gateway server to the BYOL Windows Server.</p>
 </li>
 <li>
-<p>Open the Settings application.</p>
+<p>Open the <strong>Settings</strong> application.</p>
 </li>
 <li>
-<p>Open Update &amp; Security.</p>
+<p>Open the <strong>Update &amp; Security</strong> option.</p>
 </li>
 <li>
-<p>Click Check for updates.</p>
+<p>Choose <strong>Check for updates</strong>.</p>
 </li>
 <li>
-<p>Install any updates and reboot if necessary.</p>
+<p>Install updates.</p>
 </li>
-</ul>
+<li>
+<p>Reboot, if needed.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -1816,10 +1776,10 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 <p><strong>A.</strong> Launch the Quick Start templates from the links in this guide or from another S3 bucket. If you deploy the templates from a local copy on your computer or from a location other than an S3 bucket, you might encounter template-size limitations. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html" target="_blank" rel="noopener">AWS CloudFormation quotas</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Q.</strong> What will happen if one of the Availability Zones runs out of Dedicated Host capacity?</p>
+<p><strong>Q.</strong> What happens if one of the Availability Zones runs out of Dedicated Hosts capacity?</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> If one of the Availability Zones runs out of Dedicated Host capacity, new instances in the auto scaling group will be deployed in the other Availability Zone until the first Availability Zone gains capacity.</p>
+<p><strong>A.</strong> If capacity is reached, new instances in the Auto Scaling group are deployed in the other Availability Zone until the first Availability Zone gains capacity.</p>
 </div>
 </div>
 </div>
@@ -1867,7 +1827,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
 (<code>AvailabilityZones</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones (AZs) to use for the subnets in the VPC. Note: The logical order is preserved and only 2 AZs are used for this deployment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. The logical order is preserved, and only two Availability Zones are used for this deployment.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
@@ -1891,13 +1851,13 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 CIDR
 (<code>PublicSubnet1CIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public DMZ subnet 1 located in Availability Zone 1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public perimeter zone subnet 1 located in Availability Zone. 1.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 CIDR
 (<code>PublicSubnet2CIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public DMZ subnet 2 located in Availability Zone 2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public perimeter zone subnet 2 located in Availability Zone. 2.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1946,10 +1906,10 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of RDGW hosts
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Remote Desktop Gateway hosts
 (<code>NumberOfRDGWHosts</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enter the number of Remote Desktop Gateway hosts to create. If set to 0 no Remote Desktop Gateway auto-scaling group will be created.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of Remote Desktop Gateway hosts to create. If set to 0, the Remote Desktop Gateway Auto Scaling group is not created.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Admin user name
@@ -1961,7 +1921,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Admin password
 (<code>AdminPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the administrative account. Must be at least 8 characters containing letters, numbers and symbols.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the administrative account. Must be at least 8 characters containing letters, numbers, and symbols.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
@@ -1973,12 +1933,12 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Allowed Remote Desktop Gateway external access CIDR
 (<code>RDGWCIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the Remote Desktop Gateways.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the Remote Desktop Gateway instances.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. License Manager configuration</caption>
+<caption class="title">Table 4. AWS License Manager configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1996,42 +1956,42 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">LCM config rule name
 (<code>LMConfigRuleName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>demorule</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify license configuration rule name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The license configuration rule name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">License counting type
 (<code>LicenseCountingType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Core</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify license type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The license type.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">License count
 (<code>LicenseCount</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify total cores</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The total license count.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">License count hard limit
 (<code>LicenseCountHardLimit</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify whether a hard limit exists for the license count.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Platform name
 (<code>PlatformName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>windows-server-datacenter</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify platform name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The platform name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Platform version
 (<code>PlatformVersion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2016</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify platform version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The platform version.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Host Resource Group configuration</caption>
+<caption class="title">Table 5. Host resource group configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2049,31 +2009,31 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Host resource group name
 (<code>HostResourceGroupName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>WindowsHost</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify license configuration rule name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The host resource group name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Allowed instance family
 (<code>AllowedInstanceFamily</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>c5</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The allowed instance family.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Automatically allocate host
 (<code>AutoAllocateHost</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify whether to automatically allocate the host.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Automatically recover host
 (<code>AutoRecoverHost</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify whether to automatically recover the host.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Automatically release host
 (<code>AutoReleaseHost</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify whether to automatically release the host.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2096,7 +2056,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">BYOL instance AMI
 (<code>BYOLAMI</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ami-077f1edd46ddb3129</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify ami ID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AMI ID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BYOL instance type
@@ -2108,7 +2068,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of BYOL instances
 (<code>NumberOfBYOLInstances</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enter the number of BYOL Instances to be launched.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of BYOL instances to launch.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2169,7 +2129,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">VPC ID
 (<code>VPCID</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (for example, vpc-0343606e).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
@@ -2193,7 +2153,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 ID
 (<code>PrivateSubnet1AID</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the Private subnet 1 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 1 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 ID
@@ -2248,10 +2208,10 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of RDGW hosts
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Remote Desktop Gateway hosts
 (<code>NumberOfRDGWHosts</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enter the number of Remote Desktop Gateway hosts to create. If set to 0 no Remote Desktop Gateway auto-scaling group will be created.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of Remote Desktop Gateway hosts to create. If set to 0, the Remote Desktop Gateway Auto Scaling group is not created.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Admin user name
@@ -2263,7 +2223,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Admin password
 (<code>AdminPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the administrative account. Must be at least 8 characters containing letters, numbers and symbols.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the administrative account. Must be at least 8 characters containing letters, numbers, and symbols.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
@@ -2275,12 +2235,12 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Allowed Remote Desktop Gateway external access CIDR
 (<code>RDGWCIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the Remote Desktop Gateways.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the Remote Desktop Gateway instances.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. License Manager configuration</caption>
+<caption class="title">Table 11. AWS License Manager configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2298,42 +2258,42 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">LCM config rule name
 (<code>LMConfigRuleName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>demorule</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify license configuration rule name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The license configuration rule name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">License counting type
 (<code>LicenseCountingType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Core</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify license type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The license type.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">License count
 (<code>LicenseCount</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify total cores</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The total license count.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">License count hard limit
 (<code>LicenseCountHardLimit</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify whether a hard limit exists for the license count.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Platform name
 (<code>PlatformName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>windows-server-datacenter</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify platform name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The platform name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Platform version
 (<code>PlatformVersion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2016</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify platform version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The platform version.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. Host Resource Group configuration</caption>
+<caption class="title">Table 12. Host resource group configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2351,31 +2311,31 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Host resource group name
 (<code>HostResourceGroupName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>WindowsHost</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify license configuration rule name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The host resource group name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Allowed instance family
 (<code>AllowedInstanceFamily</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>c5</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The allowed instance family.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Automatically allocate host
 (<code>AutoAllocateHost</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify whether to automatically allocate the host.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Automatically recover host
 (<code>AutoRecoverHost</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify whether to automatically recover the host.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Automatically release host
 (<code>AutoReleaseHost</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify accordingly to limit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify whether to automatically release the host.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2398,7 +2358,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">BYOL instance AMI
 (<code>BYOLAMI</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ami-077f1edd46ddb3129</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Please specify ami ID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AMI ID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BYOL instance type
@@ -2410,7 +2370,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of BYOL instances
 (<code>NumberOfBYOLInstances</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enter the number of BYOL Instances to be launched.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of BYOL instances to launch.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2450,161 +2410,6 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_parameters_for_launching_into_an_existing_vpc_standalone">Parameters for launching into an existing VPC (standalone)</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. Network configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">VPC ID
-(<code>VPCID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (for example, vpc-0343606e).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 ID
-(<code>PublicSubnet1ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the first Remote Desktop Gateway into (for example, subnet-a0246dcd).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 ID
-(<code>PublicSubnet2ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 2 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed Remote Desktop Gateway external access CIDR
-(<code>RDGWCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR Block for external access to the Remote Desktop Gateways.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. Amazon EC2 configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key pair name
-(<code>KeyPairName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public/private key pairs allow you to securely connect to your instance after it launches.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Remote Desktop Gateway instance type
-(<code>RDGWInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.2xlarge</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the Remote Desktop Gateway instances.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SSM parameter to grab latest AMI ID
-(<code>LatestAmiId</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NO_DESCRIPTION</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. Microsoft Remote Desktop Gateway configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of RDGW hosts
-(<code>NumberOfRDGWHosts</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enter the number of Remote Desktop Gateway hosts to create.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Admin user name
-(<code>AdminUser</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StackAdmin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the new local administrator account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Admin password
-(<code>AdminPassword</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the administrative account. Must be at least 8 characters containing letters, numbers, and symbols.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
-(<code>DomainDNSName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example.com</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name (FQDN), such as example.com.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. AWS Quick Start configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
-(<code>QSS3BucketName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
-(<code>QSS3KeyPrefix</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-microsoft-rdgateway/</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a> and <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
-(<code>QSS3BucketRegion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -2619,7 +2424,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <h2 id="_quick_start_reference_deployments">Quick Start reference deployments</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See the <a href="https://aws.amazon.com/quickstart/">AWS Quick Start home page</a>.</p>
+<p>See the <a href="https://aws.amazon.com/quickstart/" target="_blank" rel="noopener">AWS Quick Start home page</a>.</p>
 </div>
 </div>
 </div>
@@ -2655,10 +2460,10 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-34cf1556d4e0677eb264f9a56cdc0718f2a4583e
+abbe56e78e54cebe0bf6f6331e36868258e77a93
 
 submodule config:
- 81ea0b675a571b662377f9de556a26cce8dad05f docs/boilerplate (heads/main)
+ 4ee94d6b60ec455e5b452e8ad9841eb825704b70 docs/boilerplate (heads/main)
  c89deff157bdf59bb159878ebdaea53ae6753759 submodules/quickstart-aws-vpc (v1.0-41-gc89deff)
- 23af011799027a5ec193fad0233595461d232139 submodules/quickstart-microsoft-rdgateway (remotes/origin/master-74-g23af011)
+ 7becaf192403d4092b4a8c4ad8f9b03c3d07ab20 submodules/quickstart-microsoft-rdgateway (heads/main)
 -->

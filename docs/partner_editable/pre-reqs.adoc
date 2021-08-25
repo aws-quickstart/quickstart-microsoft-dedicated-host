@@ -2,8 +2,6 @@
 
 === Prepare a Windows AMI
 
-Microsoft Windows AMIs provided by AWS include AWS-provided licenses. Since the purpose of this Quick Start is to allow Dedicated
-Host users to bring their own Windows licenses, you will need to create a Windows AMI. See https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html[the instructions for importing a VM image to your AWS account].
+Microsoft Windows AMIs provided by AWS include AWS-provided licenses. Since the purpose of this Quick Start is to allow {partner-product-short-name} users to bring their own Windows licenses, you must create a Windows AMI. For more information, see https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html[Importing a VM as an image using VM Import/Export].
 
-If you are looking to combine AWS-provided licenses for Windows Server and run eligible application software such Microsoft SQL Server or SharePoint, you can bypass the above step and use an AWS provided License Include Windows Server AMI. Please read 
-the *Use Cases* section of the deployment guide.
+If you are looking to combine AWS-provided licenses for Windows Server and run eligible application software such Microsoft SQL Server or SharePoint, you can bypass the preceding step and use an AWS-provided, license-included Windows Server AMI. 

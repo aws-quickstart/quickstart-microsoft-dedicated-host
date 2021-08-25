@@ -2,69 +2,64 @@
 // Identify your target audience and explain how/why they would use this Quick Start.
 //Avoid borrowing text from third-party websites (copying text from AWS service documentation is fine). Also, avoid marketing-speak, focusing instead on the technical aspect.
 
-This guide provides instructions for deploying the Microsoft Dedicated Hosts environment Quick Start reference architecture on the AWS Cloud.
+This guide provides instructions for deploying an Amazon Elastic Compute Cloud (Amazon EC2) {partner-product-short-name} for Microsoft Quick Start reference architecture on the AWS Cloud. 
 
-This Quick Start is for IT infrastructure architects, administrators, and DevOps professionals who are planning to implement an EC2 Dedicated Host environment to bring their own eligible software licenses to AWS.
+This Quick Start is for IT infrastructure architects, administrators, and DevOps professionals who are planning to implement a {partner-product-short-name} environment while bringing their own eligible Microsoft software licenses to AWS. 
 
-=== EC2 Dedicated Infrastructure
+The Quick Start automates the process of setting up the https://console.aws.amazon.com/license-manager/home?region=us-east-1#[AWS License Manager] license configuration and associating it with a https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups[host resource group]. Next, it creates an Auto Scaling group of EC2 {partner-product-short-name} instances, which are then assigned to the host resource group. The host resource group lets you manage the instances as a single entity based on your License Manager configuration settings. As you add new licenses to the License Manager configuration, the licenses are automatically applied to the new instances.  
 
-EC2 Dedicated Hosts provides dedicated hardware to support existing software licenses. Amazon EC2 Dedicated Hosts allow you to use your eligible software licenses, such as Microsoft Windows Server or Microsoft SQL Server, the flexibility and cost effectiveness of using your own licenses, but with the resiliency, simplicity and elasticity of AWS.
+=== Advantages
 
-An Amazon EC2 Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirements.
+When deploying this Quick Start, you can:
 
-Amazon EC2 Dedicated Hosts is also integrated with AWS License Manager, a service which helps you manage your software licenses, 
-including Microsoft Windows Server and Microsoft SQL Server licenses. In License Manager, you can specify your licensing terms for governing 
-license usage, as well as your Dedicated Host management preferences for host allocation and host capacity utilization. Once set up, AWS takes care 
-of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on Dedicated Hosts just like you would 
-launch an EC2 instance with AWS provided licenses. To learn more , please visit https://aws.amazon.com/ec2/dedicated-hosts/
+* Benefit from the efficiencies of the AWS Cloud while using existing investments in on-premises
+software
+* Extend the lifecycle of prior software versions
+* Import your existing Windows images to the AWS Cloud
+* Easily track licenses using License Manager
+* Enforce licensing rules, stay compliant, and control overages
+* Centrally report usage and discover installed software
 
+==== Eligible software 
 
-==== License Manager
+You can use a variety of existing software licenses on AWS using {partner-product-short-name}, for example:
 
-AWS License Manager makes it easier to manage your software licenses from vendors such as Microsoft, SAP, Oracle, and IBM, across AWS and on-premises environments. This gives you better control and visibility of your licenses, allowing you to limit licensing overages and reduce the risk of non-compliance and misreporting. License Manager provides:
+*  Microsoft Windows Server 2008, 2008 R2, 2012, or 2016
+*  Microsoft SQL Server
+*  Microsoft Remote Desktop Services
+*  Microsoft Exchange Server 
+*  Microsoft SharePoint Server 
 
-* Visibility of sockets and physical cores
-* Affinity
-* Instance placement controls
-* Multiple instance size support
-* Integrated license management
+=== {partner-product-name} infrastructure
 
-To learn more, please visit https://aws.amazon.com/license-manager/
+{partner-product-short-name} provide dedicated hardware to support existing software licenses. Using {partner-product-short-name}, you can take advantage of the flexibility and cost effectiveness of using your own licenses, but with the resiliency, simplicity, and elasticity of AWS.
 
+A Dedicated Host is a physical server fully dedicated for your use, so you can address corporate compliance requirements.
 
-==== Host Resource Group
+==== AWS License Manager
 
-A host resource group is a collection of Dedicated Hosts that you can manage as a single entity. As you launch instances, License Manager allocates the hosts and launches instances on them based on the settings that you configured. You can add existing Dedicated Hosts to a host resource group and take advantage of automated host management through License Manager.
+{partner-product-short-name} also runs with AWS License Manager, a service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing 
+license usage, and you can configure your {partner-product-short-name} management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on {partner-product-short-name}, similar to how you would launch an EC2 instance with an AWS-provided license. To learn more, see https://aws.amazon.com/ec2/dedicated-hosts/[Amazon EC2 Dedicated Hosts].
 
-You can use host resource groups to separate hosts by purpose; for example, development test hosts versus production, organizational unit, or license constraint. After you add a Dedicated Host to a host resource group, you cannot launch instances directly on the Dedicated Host, you must launch them using the host resource group.
+To learn more, see https://aws.amazon.com/license-manager/[AWS License Manager].
 
-The Quick Start will present you with parameters to specify your preference for host resource groups. These parameters will then be used to automate the following:
+==== Host resource group
+
+A host resource group is a collection of {partner-product-short-name} that you can manage as a single entity. As you launch instances, License Manager allocates the hosts and launches instances on them based on your configuration settings. You can add existing {partner-product-short-name} to a host resource group and take advantage of automated host management through License Manager.
+
+You can use host resource groups to separate hosts by purpose (for example, development test hosts versus production, organizational unit, or license constraints). After you add a Dedicated Host to a host resource group, you cannot launch instances directly on the Dedicated Host. Instead, you must launch them using the host resource group.
+
+The Quick Start provides parameters for the host resource group. These parameters automate the following:
 
 * Host allocation
 * Instance placement
-* Allowed instance family to create a collection of dedicated hosts as per your license limit
+* Allowed instance family to create a collection of {partner-product-short-name} per your license limit
 * Host release
 * Host recovery
 
-To learn more about host resource groups, please visit 
-https://docs.aws.amazon.com/license-manager/latest/userguide/host-resource-groups.html
+To learn more about host resource groups, see 
+https://docs.aws.amazon.com/license-manager/latest/userguide/host-resource-groups.html[Host resource groups in AWS License Manager].
 
 
-==== BYOL AMI
 
-There are many Amazon Machine Images (AMIs) to choose from when launching your instances, and they support a variety of operating system platforms and features. To understand how the AMI you choose when launching your instance affects the bottom line on your AWS bill, you can research the associated operating system platform and billing information
-
-BYOL (Bring your own License) AMIs are sourced from the customer environment using a migration tool such as CloudEndure or VMImport/Export. BYOL AMIs carry billing code RunInstances:0800 
-
-To learn more about creating a BYOL AMI, please visit https://aws.amazon.com/blogs/modernizing-with-aws/how-to-create-windows-server-bring-your-own-license-amis-from-on-premises-with-vm-import-export/
-
-The following table lists some of the platform details and usage operation values that can be displayed on the Instances or AMIs pages in the Amazon EC2 console, or in the response that is returned by the describe-images command. To learn more about billing codes & AMIs, please visit https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html.
-
-|===
-|Platform details | Usage operation
-
-// Space needed to maintain table headers
-|Windows License Included |RunInstances:0002
-|Windows BYOL |RunInstances:0800
-|===
 

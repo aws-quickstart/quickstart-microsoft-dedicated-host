@@ -3,11 +3,11 @@
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|VPC ID
-(`VPCID`)|`**__Requires input__**`|ID of the VPC (e.g., vpc-0343606e).|VPC CIDR
+(`VPCID`)|`**__Requires input__**`|ID of the VPC (for example, vpc-0343606e).|VPC CIDR
 (`VPCCIDR`)|`10.0.0.0/16`|CIDR block for the VPC.|Public subnet 1 ID
 (`PublicSubnet1ID`)|`**__Requires input__**`|ID of the public subnet 1 that you want to provision the first Remote Desktop Gateway into (for example, subnet-a0246dcd).|Public subnet 2 ID
 (`PublicSubnet2ID`)|`**__Requires input__**`|ID of the public subnet 2 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).|Private subnet 1 ID
-(`PrivateSubnet1AID`)|`**__Requires input__**`|ID of the Private subnet 1 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).|Private subnet 2 ID
+(`PrivateSubnet1AID`)|`**__Requires input__**`|ID of the private subnet 1 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).|Private subnet 2 ID
 (`PrivateSubnet2AID`)|`**__Requires input__**`|ID of the Private subnet 2 that you want to provision the first Remote Desktop Gateway into (for example, subnet-a0246dcd).
 |===
 .Amazon EC2 configuration
@@ -20,41 +20,41 @@
 .Microsoft Remote Desktop Gateway configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Number of RDGW hosts
-(`NumberOfRDGWHosts`)|`1`|Enter the number of Remote Desktop Gateway hosts to create. If set to 0 no Remote Desktop Gateway auto-scaling group will be created.|Admin user name
+|Parameter label (name) |Default value|Description|Number of Remote Desktop Gateway hosts
+(`NumberOfRDGWHosts`)|`1`|The number of Remote Desktop Gateway hosts to create. If set to 0, the Remote Desktop Gateway Auto Scaling group is not created.|Admin user name
 (`AdminUser`)|`StackAdmin`|User name for the new local administrator account.|Admin password
-(`AdminPassword`)|`**__Requires input__**`|Password for the administrative account. Must be at least 8 characters containing letters, numbers and symbols.|Domain DNS name
+(`AdminPassword`)|`**__Requires input__**`|Password for the administrative account. Must be at least 8 characters containing letters, numbers, and symbols.|Domain DNS name
 (`DomainDNSName`)|`example.com`|Fully qualified domain name (FQDN), such as example.com.|Allowed Remote Desktop Gateway external access CIDR
-(`RDGWCIDR`)|`**__Requires input__**`|Allowed CIDR block for external access to the Remote Desktop Gateways.
+(`RDGWCIDR`)|`**__Requires input__**`|Allowed CIDR block for external access to the Remote Desktop Gateway instances.
 |===
-.License Manager configuration
+.AWS License Manager configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|LCM config rule name
-(`LMConfigRuleName`)|`demorule`|Please specify license configuration rule name|License counting type
-(`LicenseCountingType`)|`Core`|Please specify license type|License count
-(`LicenseCount`)|`100`|Please specify total cores|License count hard limit
-(`LicenseCountHardLimit`)|`true`|Please specify accordingly to limit|Platform name
-(`PlatformName`)|`windows-server-datacenter`|Please specify platform name|Platform version
-(`PlatformVersion`)|`2016`|Please specify platform version
+(`LMConfigRuleName`)|`demorule`|The license configuration rule name.|License counting type
+(`LicenseCountingType`)|`Core`|The license type.|License count
+(`LicenseCount`)|`100`|The total license count.|License count hard limit
+(`LicenseCountHardLimit`)|`true`|Specify whether a hard limit exists for the license count.|Platform name
+(`PlatformName`)|`windows-server-datacenter`|The platform name.|Platform version
+(`PlatformVersion`)|`2016`|The platform version.
 |===
-.Host Resource Group configuration
+.Host resource group configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|Host resource group name
-(`HostResourceGroupName`)|`WindowsHost`|Please specify license configuration rule name|Allowed instance family
-(`AllowedInstanceFamily`)|`c5`|Please specify accordingly to limit|Automatically allocate host
-(`AutoAllocateHost`)|`true`|Please specify accordingly to limit|Automatically recover host
-(`AutoRecoverHost`)|`true`|Please specify accordingly to limit|Automatically release host
-(`AutoReleaseHost`)|`true`|Please specify accordingly to limit
+(`HostResourceGroupName`)|`WindowsHost`|The host resource group name.|Allowed instance family
+(`AllowedInstanceFamily`)|`c5`|The allowed instance family.|Automatically allocate host
+(`AutoAllocateHost`)|`true`|Specify whether to automatically allocate the host.|Automatically recover host
+(`AutoRecoverHost`)|`true`|Specify whether to automatically recover the host.|Automatically release host
+(`AutoReleaseHost`)|`true`|Specify whether to automatically release the host.
 |===
 .BYOL configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|BYOL instance AMI
-(`BYOLAMI`)|`ami-077f1edd46ddb3129`|Please specify ami ID|BYOL instance type
+(`BYOLAMI`)|`ami-077f1edd46ddb3129`|AMI ID.|BYOL instance type
 (`BYOLInstanceType`)|`c5.xlarge`|Amazon EC2 instance type for BYOL instances.|Number of BYOL instances
-(`NumberOfBYOLInstances`)|`0`|Enter the number of BYOL Instances to be launched.
+(`NumberOfBYOLInstances`)|`0`|The number of BYOL instances to launch.
 |===
 .AWS Quick Start configuration
 [width="100%",cols="16%,11%,73%",options="header",]
