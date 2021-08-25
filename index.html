@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Amazon EC2 Dedicated Hosts for Microsoft on the AWS Cloud</title>
+<title>Amazon EC2 Dedicated Hosts for Microsoft Windows on the AWS Cloud</title>
 <style>
 
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -829,7 +829,7 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_advantages">Advantages</a></li>
 </ul>
 </li>
-<li><a href="#_amazon_ec2_dedicated_hosts_for_microsoft_on_aws">Amazon EC2 Dedicated Hosts for Microsoft on AWS</a>
+<li><a href="#_amazon_ec2_dedicated_hosts_for_microsoft_windows_on_aws">Amazon EC2 Dedicated Hosts for Microsoft Windows on AWS</a>
 <ul class="sectlevel3">
 <li><a href="#_aws_license_manager">AWS License Manager</a></li>
 <li><a href="#_host_resource_group">Host resource group</a></li>
@@ -874,8 +874,8 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_customer_responsibility">Customer responsibility</a></li>
 <li><a href="#_parameter_reference">Parameter reference</a>
 <ul class="sectlevel2">
-<li><a href="#_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</a></li>
 <li><a href="#_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</a></li>
+<li><a href="#_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</a></li>
 </ul>
 </li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
@@ -888,7 +888,7 @@ p.footer-text a{color:#d7d8d8}
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<h2 id="_amazon_ec2_dedicated_hosts_for_microsoft_on_the_aws_cloud" class="discrete text-center">Amazon EC2 Dedicated Hosts for Microsoft on the AWS Cloud</h2>
+<h2 id="_amazon_ec2_dedicated_hosts_for_microsoft_windows_on_the_aws_cloud" class="discrete text-center">Amazon EC2 Dedicated Hosts for Microsoft Windows on the AWS Cloud</h2>
 <h2 id="_quick_start_reference_deployment" class="discrete text-left text-center">Quick Start Reference Deployment</h2>
 <div class="imageblock text-center">
 <div class="content">
@@ -897,7 +897,7 @@ p.footer-text a{color:#d7d8d8}
 </div>
 <div class="paragraph text-center">
 <p><strong>August 2021</strong><br>
-<em>Sudhir Amin, Microsoft Workloads and Dave May, AWS Integration &amp; Automation team</em></p>
+<em>Sudhir Amin, AWS for Microsoft Workloads and Dave May, AWS Integration &amp; Automation team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -921,7 +921,7 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide provides instructions for deploying an Amazon Elastic Compute Cloud (Amazon EC2) Dedicated Hosts for Microsoft Quick Start reference architecture on the AWS Cloud.</p>
+<p>This guide provides instructions for deploying an Amazon Elastic Compute Cloud (Amazon EC2) Dedicated Hosts for Microsoft Windows Quick Start reference architecture on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
 <p>This Quick Start is for IT infrastructure architects, administrators, and DevOps professionals who are planning to implement a Dedicated Hosts environment while bringing their own eligible Microsoft software licenses to AWS.</p>
@@ -965,7 +965,7 @@ software</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Microsoft Windows Server 2008, 2008 R2, 2012, or 2016</p>
+<p>Microsoft Windows Server 2008*, 2008 R2*, 2012, 2016, or 2019</p>
 </li>
 <li>
 <p>Microsoft SQL Server</p>
@@ -981,15 +981,18 @@ software</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p><span class="small">* Windows Server 2008 and 2008 R2 are no longer supported. If using these versions, you must bring your own image. For more information, see <a href="https://aws.amazon.com/emp-windows-server/">End-of-Support Migration Program for Windows Server</a>.</span></p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_amazon_ec2_dedicated_hosts_for_microsoft_on_aws">Amazon EC2 Dedicated Hosts for Microsoft on AWS</h2>
+<h2 id="_amazon_ec2_dedicated_hosts_for_microsoft_windows_on_aws">Amazon EC2 Dedicated Hosts for Microsoft Windows on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Dedicated Hosts allow you to use your eligible software licenses from vendors such as Microsoft and Oracle on Amazon EC2, giving you the flexibility and cost using your own licenses, but with the resiliency, simplicity and elasticity of AWS. A Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirements.</p>
+<p>Dedicated Hosts provide dedicated hardware to support existing software licenses, with an identifiable number of physical cores required for licensing some Microsoft products such as Windows Server. Using Dedicated Hosts, you can take advantage of the flexibility and cost effectiveness of using your own licenses and licensing for maximum virtualization, but with the resiliency, simplicity, and elasticity of AWS.</p>
 </div>
 <div class="paragraph">
 <p>To learn more, see <a href="https://aws.amazon.com/ec2/dedicated-hosts/">Amazon EC2 Dedicated Hosts</a>.</p>
@@ -997,8 +1000,7 @@ software</p>
 <div class="sect3">
 <h4 id="_aws_license_manager">AWS License Manager</h4>
 <div class="paragraph">
-<p>Dedicated Hosts runs with License Manager, an AWS service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing
-license usage, and you can configure your Dedicated Hosts management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on Dedicated Hosts, similar to how you would launch an EC2 instance with an AWS-provided license.</p>
+<p>License Manager can help you simplify the management of software licenses when using Dedicated Hosts. License Manager allows you to specify your licensing terms for governing license usage, and you can configure your Dedicated Hosts management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on Dedicated Hosts, similar to how you would launch an EC2 instance with an AWS-provided license.</p>
 </div>
 <div class="paragraph">
 <p>To learn more, see <a href="https://aws.amazon.com/license-manager/">AWS License Manager</a>.</p>
@@ -1111,7 +1113,7 @@ After you deploy the Quick Start, create <a href="https://docs.aws.amazon.com/aw
 <div class="sect3">
 <h4 id="_ami_for_windows_server">AMI for Windows Server</h4>
 <div class="paragraph">
-<p>Use the AMI for Windows Server with the cost of the Windows license included. When using AWS-provided Windows Server licensing, you don&#8217;t need to import your own Windows images.</p>
+<p>You have the option to use Windows Server AMIs that include the cost for licensing. When using AWS-provided Windows Server licensing, you don&#8217;t need to import your own Windows images (unless you are using Windows Server 2008 or 2008 R2).</p>
 </div>
 <div class="paragraph">
 <p>Run Windows Server instances on Dedicated Hosts and use existing compliant Windows Server software licenses from AWS with a pay-as-you-go model. This helps in scenarios where you have eligible software licenses to use on Dedicated Hosts but do not have accompanying Windows Server licenses to run the eligible software to the Dedicated Hosts environment.</p>
@@ -1805,7 +1807,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </table>
 </div>
 <div class="sect2">
-<h3 id="_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</h3>
+<h3 id="_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Network configuration</caption>
 <colgroup>
@@ -1822,10 +1824,10 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
-(<code>AvailabilityZones</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VPC ID
+(<code>VPCID</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. The logical order is preserved, and only two Availability Zones are used for this deployment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (for example, vpc-0343606e).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
@@ -1834,28 +1836,28 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 CIDR
-(<code>PrivateSubnet1CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1 located in Availability Zone 1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 ID
+(<code>PublicSubnet1ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the first Remote Desktop Gateway into (for example, subnet-a0246dcd).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 CIDR
-(<code>PrivateSubnet2CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2 located in Availability Zone 2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 ID
+(<code>PublicSubnet2ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 2 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 CIDR
-(<code>PublicSubnet1CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public perimeter zone subnet 1 located in Availability Zone. 1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 ID
+(<code>PrivateSubnet1AID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 1 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 CIDR
-(<code>PublicSubnet2CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public perimeter zone subnet 2 located in Availability Zone. 2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 ID
+(<code>PrivateSubnet2AID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the Private subnet 2 that you want to provision the first Remote Desktop Gateway into (for example, subnet-a0246dcd).</p></td>
 </tr>
 </tbody>
 </table>
@@ -1883,7 +1885,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Remote Desktop Gateway instance type
 (<code>RDGWInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t2.large</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.2xlarge</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the Remote Desktop Gateway instances.</p></td>
 </tr>
 </tbody>
@@ -2107,7 +2109,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </table>
 </div>
 <div class="sect2">
-<h3 id="_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</h3>
+<h3 id="_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 8. Network configuration</caption>
 <colgroup>
@@ -2124,10 +2126,10 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">VPC ID
-(<code>VPCID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
+(<code>AvailabilityZones</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (for example, vpc-0343606e).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. The logical order is preserved, and only two Availability Zones are used for this deployment.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
@@ -2136,28 +2138,28 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 ID
-(<code>PublicSubnet1ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the first Remote Desktop Gateway into (for example, subnet-a0246dcd).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 CIDR
+(<code>PrivateSubnet1CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1 located in Availability Zone 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 ID
-(<code>PublicSubnet2ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 2 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 CIDR
+(<code>PrivateSubnet2CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2 located in Availability Zone 2.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 ID
-(<code>PrivateSubnet1AID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 1 you want to provision the second Remote Desktop Gateway into (for example, subnet-e3246d8e).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 CIDR
+(<code>PublicSubnet1CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public perimeter zone subnet 1 located in Availability Zone. 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 ID
-(<code>PrivateSubnet2AID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the Private subnet 2 that you want to provision the first Remote Desktop Gateway into (for example, subnet-a0246dcd).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 CIDR
+(<code>PublicSubnet2CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public perimeter zone subnet 2 located in Availability Zone. 2.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2185,7 +2187,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Remote Desktop Gateway instance type
 (<code>RDGWInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.2xlarge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t2.large</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the Remote Desktop Gateway instances.</p></td>
 </tr>
 </tbody>
@@ -2458,7 +2460,7 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-e124bb2b30445fc5e12819e6518b8bc8c5e4e6dc
+a485caf6f64ba9a7096db2c7773c47dbe39ad031
 
 submodule config:
  4ee94d6b60ec455e5b452e8ad9841eb825704b70 docs/boilerplate (heads/main)
