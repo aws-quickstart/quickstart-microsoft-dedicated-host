@@ -32,9 +32,7 @@ You can use a variety of existing software licenses on AWS using {partner-produc
 
 === {partner-product-name} infrastructure
 
-{partner-product-short-name} provide dedicated hardware to support existing software licenses. Using {partner-product-short-name}, you can take advantage of the flexibility and cost effectiveness of using your own licenses, but with the resiliency, simplicity, and elasticity of AWS.
-
-A Dedicated Host is a physical server fully dedicated for your use, so you can address corporate compliance requirements.
+{partner-product-short-name} provide dedicated hardware to support existing software licenses. Using {partner-product-short-name}, you can take advantage of the flexibility and cost effectiveness of using your own licenses, but with all the benefits of the AWS Cloud.
 
 ==== AWS License Manager
 
