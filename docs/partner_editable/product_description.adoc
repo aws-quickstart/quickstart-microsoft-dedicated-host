@@ -2,7 +2,7 @@
 // Briefly describe the software. Use consistent and clear branding. 
 // Include the benefits of using the software on AWS, and provide details on usage scenarios.
 
-{partner-product-short-name} allow you to use your eligible software licenses from vendors such as Microsoft and Oracle on Amazon EC2, giving you the flexibility and cost using your own licenses, but with the resiliency, simplicity and elasticity of AWS. A Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirements.
+{partner-product-short-name} provide dedicated hardware to support existing software licenses, with an identifiable number of physical cores required for licensing some Microsoft products such as Windows Server. Using {partner-product-short-name}, you can take advantage of the flexibility and cost effectiveness of using your own licenses and licensing for maximum virtualization, but with the resiliency, simplicity, and elasticity of AWS.
 
 To learn more, see https://aws.amazon.com/ec2/dedicated-hosts/[Amazon EC2 Dedicated Hosts].
 
