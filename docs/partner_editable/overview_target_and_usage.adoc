@@ -38,7 +38,7 @@ A Dedicated Host is a physical server fully dedicated for your use, so you can a
 
 ==== AWS License Manager
 
-{partner-product-short-name} also runs with AWS License Manager, a service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing 
+{partner-product-short-name} also runs with License Manager, an AWS service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing 
 license usage, and you can configure your {partner-product-short-name} management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on {partner-product-short-name}, similar to how you would launch an EC2 instance with an AWS-provided license. To learn more, see https://aws.amazon.com/ec2/dedicated-hosts/[Amazon EC2 Dedicated Hosts].
 
 To learn more, see https://aws.amazon.com/license-manager/[AWS License Manager].
