@@ -2,7 +2,7 @@ The use of Microsoft software is subject to Microsoft's terms. You are responsib
 
 The Quick Start is configured to accept the following two licensing options.
 
-==== Bring your own license (BYOL) AMI
+==== Bring Your Own License (BYOL) AMI
 
 Use your volume licensing software and bring the license. When using your own Window Server license, you must either import your own VM images or use host-based replication software to create the AMI. 
 
@@ -19,7 +19,7 @@ The following platform details and usage operation values can be displayed on th
 
 To learn more about billing codes and AMIs, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html[AMI billing information fields].
 
-==== AMI for Windows Server with license costs included
+==== AMI for Windows Server 
 
 Use the AMI for Windows Server with the cost of the Windows license included. When using AWS-provided Windows Server licensing, you don't need to import your own Windows images.
 
