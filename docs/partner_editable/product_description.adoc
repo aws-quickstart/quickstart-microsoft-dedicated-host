@@ -8,8 +8,7 @@ To learn more, see https://aws.amazon.com/ec2/dedicated-hosts/[Amazon EC2 Dedica
 
 ==== AWS License Manager
 
-{partner-product-short-name} runs with License Manager, an AWS service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing 
-license usage, and you can configure your {partner-product-short-name} management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on {partner-product-short-name}, similar to how you would launch an EC2 instance with an AWS-provided license. 
+License Manager can help you simplify the management of software licenses when using {partner-product-short-name}. License Manager allows you to specify your licensing terms for governing license usage, and you can configure your {partner-product-short-name} management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on {partner-product-short-name}, similar to how you would launch an EC2 instance with an AWS-provided license. 
 
 To learn more, see https://aws.amazon.com/license-manager/[AWS License Manager].
 
