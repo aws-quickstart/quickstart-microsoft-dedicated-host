@@ -29,35 +29,3 @@ You can use a variety of existing software licenses on AWS using {partner-produc
 *  Microsoft Remote Desktop Services
 *  Microsoft Exchange Server 
 *  Microsoft SharePoint Server 
-
-=== {partner-product-name} infrastructure
-
-{partner-product-short-name} provide dedicated hardware to support existing software licenses. Using {partner-product-short-name}, you can take advantage of the flexibility and cost effectiveness of using your own licenses, but with all the benefits of the AWS Cloud.
-
-==== AWS License Manager
-
-{partner-product-short-name} also runs with License Manager, an AWS service that helps you manage your software licenses. In License Manager, you can specify your licensing terms for governing 
-license usage, and you can configure your {partner-product-short-name} management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on {partner-product-short-name}, similar to how you would launch an EC2 instance with an AWS-provided license. To learn more, see https://aws.amazon.com/ec2/dedicated-hosts/[Amazon EC2 Dedicated Hosts].
-
-To learn more, see https://aws.amazon.com/license-manager/[AWS License Manager].
-
-==== Host resource group
-
-A host resource group is a collection of {partner-product-short-name} that you can manage as a single entity. As you launch instances, License Manager allocates the hosts and launches instances on them based on your configuration settings. You can add existing {partner-product-short-name} to a host resource group and take advantage of automated host management through License Manager.
-
-You can use host resource groups to separate hosts by purpose (for example, development test hosts versus production, organizational unit, or license constraints). After you add a Dedicated Host to a host resource group, you cannot launch instances directly on the Dedicated Host. Instead, you must launch them using the host resource group.
-
-The Quick Start provides parameters for the host resource group. These parameters automate the following:
-
-* Host allocation
-* Instance placement
-* Allowed instance family to create a collection of {partner-product-short-name} per your license limit
-* Host release
-* Host recovery
-
-To learn more about host resource groups, see 
-https://docs.aws.amazon.com/license-manager/latest/userguide/host-resource-groups.html[Host resource groups in AWS License Manager].
-
-
-
-
