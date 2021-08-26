@@ -32,3 +32,5 @@ You can use a variety of existing software licenses on AWS using {partner-produc
 
 [.small]#* Windows Server 2008 and 2008 R2 are no longer supported. If using these versions, you must bring your own image. For more information, see https://aws.amazon.com/emp-windows-server/[End-of-Support Migration Program for Windows Server].# 
 
+For more information about licenses that you can bring to or purchase from AWS, see https://aws.amazon.com/windows/faq/[Amazon Web Services and Microsoft Frequently Asked Questions].
+
