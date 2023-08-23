@@ -1,3 +1,44 @@
-//Include any predeployment steps here, such as signing up for a Marketplace AMI or making any changes to a partner account. If there are no predeployment steps, leave this file empty.
-
 == Predeployment steps
+
+Microsoft Windows AMIs provided by AWS include AWS-provided licenses. Since the purpose of this Partner Solution is to allow {partner-product-short-name} users to bring their own Windows licenses, you must create a Windows AMI. For more information, see https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html[Importing a VM as an image using VM Import/Export].
+
+If you are looking to combine AWS-provided licenses for Windows Server and run eligible application software such Microsoft SQL Server or SharePoint, you can bypass the preceding step and use an AWS-provided, license-included Windows Server AMI. 
+
+=== Dedicated Hosts configuration option
+
+When planning your {partner-product-short-name} configuration, identify the instance capacity per host and supported instance size on the host. These values vary between different instance families that are available when building your {partner-product-short-name} environment.
+
+Powered by the AWS Nitro System, {partner-product-short-name} support multiple instance types within the same instance family on a host. For example, when you allocate an R5 Dedicated Host, you can use a host with two sockets and 48 physical cores to run different R5 instance types such as r5.2xlarge, r5.4xlarge, and others on the same host. You can run any number of instances up to the core capacity that is associated with the host.
+
+Support for multiple instance types on the same Dedicated Host is available for the following instance families: c5, m5, r5, c5n, r5n, and m5n.
+
+Instance families that come with Instant Store (local NVme) support only a single instance size on the same Dedicated Host. If using the r5d instance family, choose a single instance size during allocation.
+
+The following table shows instance capacity and size for r5d. For example, the r5d.2xlarge instance type provides a capacity of a 12-instance capacity on the host. 
+
+[width="25%",options="header",]
+|=======
+|Instance family|Sockets|Physical cores |large|xlarge|2xlarge|4xlarge|8xlarge|16xlarge|24xlarge
+|r5d |2| 48 | 48| 24 | 12 | 6 | 2|2 |1
+|r5 |2| 48 | 48| 24 | 12 | 6 | 2|2 |1
+|=======
+
+For more information, see https://www.amazonaws.cn/en/ec2/dedicated-hosts/config/[Amazon EC2 Dedicated Hosts Configuration].
+
+
+=== Maintain license count
+
+The Partner Solution uses the *LicenseCount* parameter to configure the optional License Manager *License Count* parameter. This value represents the total number of licenses managed by the configuration rule.
+
+License Manager can track license counts by core or vCPU. The Partner Solution *LicenseType* parameter selects this preference during deployment.
+
+To learn more about License Manager parameters and rules, see https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html[License configuration parameters and rules].
+
+
+=== License affinity to host
+
+The Partner Solution is configured to follow the 90 days clause, which states that a Microsoft license cannot be reassigned within 90 days. This ability to enforce assignment rules further simplifies the Windows Server and SQL Server BYOL experience on AWS. 
+
+Within License Manager configuration, the Partner Solution sets the *License affinity to host (in days)* rule to *90 days*. This rule restricts license usage to the host for 90 days. After the affinity period is over, you can reuse the license within 24 hours.
+
+To learn more, see https://docs.aws.amazon.com/license-manager/latest/userguide/config-overview.html[License configuration parameters and rules].

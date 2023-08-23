@@ -1,3 +1,120 @@
-// Include any postdeployment steps here, such as steps necessary to test that the deployment was successful. If there are no postdeployment steps, leave this file empty.
-
 == Postdeployment steps
+
+=== Review License Manager rules
+
+. Open the License Manager console at https://console.aws.amazon.com/license-manager/. 
+. In the left navigation pane, choose *Customer managed licenses*.
+. Review the rules.
+
+=== Review host resource group configuration
+
+. Open the License Manager console at https://console.aws.amazon.com/license-manager/.
+. In the left navigation pane, choose *Host resource groups*.
+. Review the configuration.
+
+=== Provisioning
+
+License Manager supports the following deployment options to enforce license rules through provisioning:
+
+* Auto Scaling group's launch template and AMI
+* CloudFormation
+* AWS SDKs and tools
+* AWS Service Catalog
+
+After you deploy the Partner Solution, navigate to the *Outputs* section of the CloudFormation stack to record the following values:
+
+* *GroupArn*, the host resource group Amazon Resource Name (ARN)
+* *LicenseArn*, the license configuration ARN
+
+image::../docs/deployment_guide/images/OutputARN.jpeg[additional_info]
+
+The following sections show you how to provision using the launch template, AWS CLI, and CloudFormation. 
+For other deployment methods, see https://aws.amazon.com/blogs/mt/mechanisms-to-govern-license-usage-with-aws-license-manager/[Mechanisms to govern license usage with AWS License Manager].
+
+==== Auto Scaling
+
+The Partner Solution creates an Auto Scaling group and associated launch template in two private subnets. Within the template, the *LaunchTemplateData* parameter is configured with these two properties. Replace the values with the values that you recorded from the *Outputs* section of the CloudFormation stack.
+
+        Placement:
+          HostResourceGroupArn: <Replace with host resource group ARN>
+        LicenseSpecifications:
+          - LicenseConfigurationArn: <Replace with license configuration ARN>
+
+The Auto Scaling group takes advantage of the multiple Availability Zones that are represented by the private subnets used by the Auto Scaling group. Therefore, take into account the Auto Scaling group, depending on the workload you plan to run on the {partner-product-short-name} infrastructure.
+
+By default, the Auto Scaling value is set to 0. If, for example, you set the desired minimum and maximum values to 2 during the deployment, you will launch two instances that are used within both Availability Zones. This means that one Dedicated Host is allocated per Availability Zone. 
+
+==== AWS CLI
+
+To deploy using AWS CLI, replace the placeholder values with those from the *Outputs* section of the CloudFormation stack:
+
+    aws ec2 run-instances \
+    --instance-type c5.2xlarge \
+    --image-id ami-0eXXXXXXXXXXXXef9  \
+    --subnet-id subnet-0fdbxxxxxxxdcf \
+    --license-specifications <License configuration ARN> \
+    --placement HostResourceGroupArn= <Host resource group ARN>
+
+
+==== CloudFormation
+
+To deploy using CloudFormation, be sure that the resource properties include values for the *HostResourceGroupArn* and *LicenseSpecifications* options.  
+
+    Type: AWS::EC2::Instance
+    Properties: 
+    AvailabilityZone: String
+    BlockDeviceMappings: 
+        - BlockDeviceMapping
+    HostResourceGroupArn: String <Replace with host resource group ARN>
+    IamInstanceProfile: String
+    ImageId: String
+    InstanceType: String
+    KeyName: String
+    LaunchTemplate: 
+        LaunchTemplateSpecification
+    LicenseSpecifications: 
+        - LicenseSpecification
+    SecurityGroupIds: 
+        - String
+    SecurityGroups: 
+        - String
+    SourceDestCheck: Boolean
+    SsmAssociations: 
+        - SsmAssociation
+    SubnetId: String
+    Tags: 
+        - Tag
+    Tenancy: String
+    UserData: String
+    Volumes: 
+        - Volume
+
+=== Validate the License Manager dashboard
+
+The *Dashboard* section of the AWS License Manager console provides graphs to track the license consumption associated with each license configuration. The dashboard also displays alerts resulting from license rule violations.
+
+The following information is available in the graph for a license configuration:
+
+* License configuration name
+* License type
+* Licenses consumed
+* Number of licenses remaining
+* Whether the rules are enforced
+* Number of hosts for each tenancy type
+
+=== Track usage through the built-in dashboard
+
+. Open the License Manager console at https://console.aws.amazon.com/license-manager/.
+. In the left navigation pane, choose *Dashboard*.
+. Locate the license usage data.
+
+=== Run Windows updates
+
+If you deployed any Windows instances, confirm that each server's operating system and installed applications have the latest Microsoft updates by running Windows Update.
+
+. Create an RDP session from the Remote Desktop Gateway server to the BYOL Windows Server.
+. Open the *Settings* application.
+. Open the *Update & Security* option.
+. Choose *Check for updates*.
+. Install updates.
+. Reboot, if needed.

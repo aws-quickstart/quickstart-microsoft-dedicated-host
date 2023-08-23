@@ -1,3 +1,28 @@
-// Include details about any licenses and how to sign up. Provide links as appropriate.
+The use of Microsoft software is subject to Microsoft's terms. You are responsible for complying with Microsoft licensing. This document does not provide legal advice. If you have questions about your licensing or rights to Microsoft software, consult your legal team, Microsoft, or your Microsoft reseller. For more information, see https://www.microsoft.com/en-us/licensing/product-licensing/products.aspx[Microsoft Product Terms].
 
-There is no cost to use this Partner Solution, but you will be billed for any AWS services or resources that this Partner Solution deploys. For more information, refer to the https://fwd.aws/rA69w?[AWS Partner Solution General Information Guide^].
+The Partner Solution is configured to accept the following two licensing options.
+
+==== Bring Your Own License (BYOL) AMI
+
+Use your volume licensing software and bring the license. When using your own Window Server license, you must either import your own VM images or use host-based replication software to create the AMI. 
+
+Several Amazon Machine Images (AMIs) that support a variety of operating system platforms and features are available to choose when launching your instances. To understand how the AMI affects your AWS bill, you can research the associated operating system platform and billing information.
+
+License Manager helps you with license reporting, governance, and managing true-ups and audits. However, Microsoft licensing requires you to bring your own media, which involves managing patching, updates, and golden AMI creation. 
+
+To learn more about creating a BYOL AMI, see https://aws.amazon.com/blogs/modernizing-with-aws/how-to-create-windows-server-bring-your-own-license-amis-from-on-premises-with-vm-import-export/[How to create Windows Server Bring-Your-Own-License AMIs from on-premises with VM Import/Export].
+
+The following platform details and usage operation values can be displayed on the instances or AMI pages in the Amazon EC2 console, or in the response that is returned by the describe-images command. 
+
+* Platform: Windows License Included, Usage operation: RunInstances:0002
+* Platform: Windows BYOL, Usage operation: RunInstances:0800
+
+To learn more about billing codes and AMIs, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html[AMI billing information fields].
+
+==== AMI for Windows Server 
+
+You have the option to use Windows Server AMIs that include the cost for licensing. When using AWS-provided Windows Server licensing, you don't need to import your own Windows images (unless you are using Windows Server 2008 or 2008 R2). 
+
+Run Windows Server instances on {partner-product-short-name} and use existing compliant Windows Server software licenses from AWS with a pay-as-you-go model. This helps in scenarios where you have eligible software licenses to use on {partner-product-short-name} but do not have accompanying Windows Server licenses to run the eligible software to the {partner-product-short-name} environment. 
+
+You can use the Windows Server AMIs via the AWS Management Console, APIs, and the command line interface (CLI). 

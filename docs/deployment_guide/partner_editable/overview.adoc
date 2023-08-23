@@ -1,10 +1,58 @@
-This guide covers the information you need to deploy the {partner-product-name} Partner Solution in the AWS Cloud.
+{partner-product-short-name} provide dedicated hardware to support existing software licenses, with an identifiable number of physical cores required for licensing some Microsoft products such as Windows Server. Using {partner-product-short-name}, you can take advantage of the flexibility and cost effectiveness of using your own licenses and licensing for maximum virtualization, but with the resiliency, simplicity, and elasticity of AWS.
 
-// Fill in the info in <angle brackets> for use on the landing page only: 
-This Amazon Web Services (AWS) Partner Solution deploys [<product name>](<partner's marketing product page>) in the AWS Cloud so that <purpose>. This solution is for <target users> who want to <do what> so that <why>. For more information, refer to the [<product name> documentation](<URL>).
+To learn more, see https://aws.amazon.com/ec2/dedicated-hosts/[Amazon EC2 Dedicated Hosts].
 
-// Deploying this solution does not guarantee an organization’s compliance with any laws, certifications, policies, or other regulations. [Uncomment this statement only for solutions that relate to compliance. We'll add the corresponding reference part to the landing page and get legal approval before publishing.]
+==== AWS License Manager
 
-// For advanced information about the product, troubleshooting, or additional functionality, refer to the https://{partner-solution-github-org}.github.io/{partner-solution-project-name}/operational/index.html[Operational Guide^].
+License Manager can help you simplify the management of software licenses when using {partner-product-short-name}. License Manager allows you to specify your licensing terms for governing license usage, and you can configure your {partner-product-short-name} management preferences for host allocation and host capacity usage. After configuration is completed, AWS takes care of these administrative tasks on your behalf, so that you can seamlessly launch virtual machines (instances) on {partner-product-short-name}, similar to how you would launch an EC2 instance with an AWS-provided license. 
 
-// For information about using this Partner Solution for migrations, refer to the https://{partner-solution-github-org}.github.io/{partner-solution-project-name}/migration/index.html[Migration Guide^].
+To learn more, see https://aws.amazon.com/license-manager/[AWS License Manager].
+
+==== Host resource group
+
+A host resource group is a collection of {partner-product-short-name} that you can manage as a single entity. As you launch instances, License Manager allocates the hosts and launches instances on them based on your configuration settings. You can add existing {partner-product-short-name} to a host resource group and take advantage of automated host management through License Manager.
+
+You can use host resource groups to separate hosts by purpose (for example, development test hosts versus production, organizational unit, or license constraints). After you add a Dedicated Host to a host resource group, you cannot launch instances directly on the Dedicated Host. Instead, you must launch them using the host resource group.
+
+The Partner Solution provides parameters for the host resource group. These parameters automate the following:
+
+* Host allocation
+* Instance placement
+* Allowed instance family to create a collection of {partner-product-short-name} per your license limit
+* Host release
+* Host recovery
+
+To learn more about host resource groups, see 
+https://docs.aws.amazon.com/license-manager/latest/userguide/host-resource-groups.html[Host resource groups in AWS License Manager].
+
+This guide provides instructions for deploying an Amazon Elastic Compute Cloud (Amazon EC2) {partner-product-short-name} for Microsoft Windows Partner Solution reference architecture on the AWS Cloud.
+
+This Partner Solution is for IT infrastructure architects, administrators, and DevOps professionals who are planning to implement a {partner-product-short-name} environment while bringing their own eligible Microsoft software licenses to AWS. 
+
+The Partner Solution automates the process of setting up the https://console.aws.amazon.com/license-manager/home?region=us-east-1#[AWS License Manager] license configuration and associating it with a https://console.aws.amazon.com/license-manager/home?region=us-east-1#/resourceGroups[host resource group]. Next, it creates an Auto Scaling group of EC2 {partner-product-short-name} instances, which are then assigned to the host resource group. The host resource group lets you manage the instances as a single entity based on your License Manager configuration settings. As you add new licenses to the License Manager configuration, the licenses are automatically applied to the new instances.  
+
+=== Advantages
+
+When deploying this Partner Solution, you can:
+
+* Benefit from the efficiencies of the AWS Cloud while using existing investments in on-premises
+software
+* Extend the lifecycle of prior software versions
+* Import your existing Windows images to the AWS Cloud
+* Easily track licenses using License Manager
+* Enforce licensing rules, stay compliant, and control overages
+* Centrally report usage and discover installed software
+
+==== Eligible software 
+
+You can use a variety of existing software licenses on AWS using {partner-product-short-name}, for example:
+
+*  Microsoft Windows Server 2008*, 2008 R2*, 2012, 2016, or 2019
+*  Microsoft SQL Server
+*  Microsoft Remote Desktop Services
+*  Microsoft Exchange Server 
+*  Microsoft SharePoint Server 
+
+[.small]#* Windows Server 2008 and 2008 R2 are no longer supported. If using these versions, you must bring your own image. For more information, see https://aws.amazon.com/emp-windows-server/[End-of-Support Migration Program for Windows Server].# 
+
+For more information about licenses that you can bring to or purchase from AWS, see https://aws.amazon.com/windows/faq/[Amazon Web Services and Microsoft Frequently Asked Questions].
